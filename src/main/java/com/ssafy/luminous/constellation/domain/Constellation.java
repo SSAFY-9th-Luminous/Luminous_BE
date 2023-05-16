@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Getter
@@ -20,5 +18,15 @@ public class Constellation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private Long contentsId;
+
+    @Column(nullable = false)
+    private Date startDate;
+
+    @Column(nullable = false)
+    private Date endDate;
+
 
 }
