@@ -1,4 +1,4 @@
 package com.ssafy.luminous.member.repository;
 
-public class MemberRepository {
+public interface MemberRepository {
 }
