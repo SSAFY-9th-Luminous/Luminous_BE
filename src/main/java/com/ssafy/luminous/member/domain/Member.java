@@ -1,5 +1,6 @@
 package com.ssafy.luminous.member.domain;
 
+import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class Member {
 
     @Id
     @GeneratedValue
-    private Long index;
+    private Long id;
 
     @NotNull
     private String memberId;
@@ -32,6 +33,19 @@ public class Member {
     private String birth;
 
     @NotNull
-    private String constellationId;
+    private Long constellationId;
+
+    public static Member register(RegisterRequestDto registerRequestDto) {
+        Member newMember = new Member();
+        newMember.memberId = registerRequestDto.getMemberId();
+        newMember.memberPassword = registerRequestDto.getMemberPassword();
+        newMember.memberName = registerRequestDto.getClass().getName();
+        newMember.birth = registerRequestDto.getBirth();
+        
+        // constellationId 가져오기
+
+        return newMember;
+        
+    }
 
 }
