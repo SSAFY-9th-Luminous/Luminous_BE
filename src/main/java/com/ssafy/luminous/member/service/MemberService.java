@@ -14,6 +14,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    // 회원가입
     public boolean register(RegisterRequestDto registerRequestDto) {
         Member newMember = Member
                 .builder()
@@ -32,7 +33,8 @@ public class MemberService {
         return false;
     }
 
-    public boolean checkId(String memberId) {
+    // 아이디 중복 체크
+    public boolean isPossibleToUseMemberId(String memberId) {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
         if (member.isPresent()) {
             return false;

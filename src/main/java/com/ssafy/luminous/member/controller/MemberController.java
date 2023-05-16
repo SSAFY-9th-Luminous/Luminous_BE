@@ -12,6 +12,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    // 회원가입
     @PostMapping("/register")
     public void register(@RequestBody RegisterRequestDto registerRequestDto){
         memberService.register(registerRequestDto);
@@ -19,9 +20,10 @@ public class MemberController {
         // 토큰 리톤해야함
     }
 
+    // 아이디 중복 체크
     @GetMapping("/check-id/{memberId}")
     public boolean checkId(@PathVariable("memberId") String memberId) {
-        return memberService.checkId(memberId);
+        return memberService.isPossibleToUseMemberId(memberId);
     }
 
 
