@@ -3,6 +3,7 @@ package com.ssafy.luminous.member.domain;
 import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +12,9 @@ import java.sql.Date;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor(force = true)
+@AllArgsConstructor
 public class Member {
 
     @Id
@@ -32,18 +35,5 @@ public class Member {
 
     @NotNull
     private Long constellationId;
-
-    public static Member register(RegisterRequestDto registerRequestDto) {
-        Member newMember = new Member();
-        newMember.memberId = registerRequestDto.getMemberId();
-        newMember.memberPassword = registerRequestDto.getMemberPassword();
-        newMember.memberName = registerRequestDto.getClass().getName();
-        newMember.birth = registerRequestDto.getBirth();
-
-        // constellationId 가져오기
-
-        return newMember;
-
-    }
 
 }

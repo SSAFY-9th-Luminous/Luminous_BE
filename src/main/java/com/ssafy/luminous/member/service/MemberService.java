@@ -13,10 +13,19 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public boolean register(RegisterRequestDto registerRequestDto) {
-        Member newMember = Member.register(registerRequestDto);
+        Member newMember = Member
+                .builder()
+                .memberId(registerRequestDto.getMemberId())
+                .memberPassword(registerRequestDto.getMemberPassword())
+                .memberName(registerRequestDto.getMemberName())
+                .birth(registerRequestDto.getBirth()).build();
+
+
+        System.out.println(registerRequestDto.getMemberPassword());
 
         if (newMember != null) {
             memberRepository.save(newMember);
+            System.out.print(memberRepository.findAll());
             return true;
         }
 
