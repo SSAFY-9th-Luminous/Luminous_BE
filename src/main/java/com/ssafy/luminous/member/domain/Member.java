@@ -33,7 +33,6 @@ public class Member {
     @NotNull
     private Date birth;
 
-    @NotNull
     private Long constellationId;
 
 }

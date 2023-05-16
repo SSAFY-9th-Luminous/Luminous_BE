@@ -6,6 +6,8 @@ import com.ssafy.luminous.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -19,16 +21,22 @@ public class MemberService {
                 .memberPassword(registerRequestDto.getMemberPassword())
                 .memberName(registerRequestDto.getMemberName())
                 .birth(registerRequestDto.getBirth()).build();
-
-
-        System.out.println(registerRequestDto.getMemberPassword());
+        
+        // constellationId 추가해주기
 
         if (newMember != null) {
             memberRepository.save(newMember);
-            System.out.print(memberRepository.findAll());
             return true;
         }
 
         return false;
+    }
+
+    public boolean checkId(String memberId) {
+        Optional<Member> member = memberRepository.findByMemberId(memberId);
+        if (member.isPresent()) {
+            return false;
+        }
+        return true;
     }
 }
