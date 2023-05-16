@@ -22,6 +22,7 @@ public class Fortune {
     private Date date;
 
     private String description;
+
     @OneToOne
     private Constellation constellation;
 
