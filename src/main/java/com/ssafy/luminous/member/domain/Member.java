@@ -1,5 +1,6 @@
 package com.ssafy.luminous.member.domain;
 
+import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
