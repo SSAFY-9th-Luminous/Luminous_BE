@@ -10,7 +10,6 @@ import java.sql.Date;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Constellation {

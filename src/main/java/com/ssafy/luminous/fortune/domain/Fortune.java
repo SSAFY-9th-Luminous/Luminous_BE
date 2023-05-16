@@ -11,7 +11,6 @@ import java.util.Date;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Fortune {
@@ -25,5 +24,6 @@ public class Fortune {
 
     @OneToOne
     private Constellation constellation;
+
 
 }
