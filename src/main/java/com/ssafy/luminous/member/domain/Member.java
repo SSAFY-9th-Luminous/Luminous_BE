@@ -17,17 +17,16 @@ public class Member {
 
     @Id
     @GeneratedValue
-    @Column(name="member_id")
-    private Long id;
+    private Long index;
 
     @NotNull
-    private String userId;
+    private String memberId;
 
     @NotNull
-    private String userPassword;
+    private String memberPassword;
 
     @NotNull
-    private String userName;
+    private String memberName;
 
     @NotNull
     private String birth;
