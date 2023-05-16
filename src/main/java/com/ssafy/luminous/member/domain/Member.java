@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Data
@@ -27,7 +28,7 @@ public class Member {
     private String memberName;
 
     @NotNull
-    private String birth;
+    private Date birth;
 
     @NotNull
     private Long constellationId;
