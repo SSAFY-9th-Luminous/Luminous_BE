@@ -13,5 +13,6 @@ public class FortuneService {
 
     public Fortune getFortune(Long id){
         return fortuneRepository.findById(id).orElseThrow();
+
     }
 }
