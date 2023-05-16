@@ -1,15 +1,11 @@
 package com.ssafy.luminous.member.domain;
 
-import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -17,7 +13,7 @@ import javax.persistence.Id;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -41,11 +37,11 @@ public class Member {
         newMember.memberPassword = registerRequestDto.getMemberPassword();
         newMember.memberName = registerRequestDto.getClass().getName();
         newMember.birth = registerRequestDto.getBirth();
-        
+
         // constellationId 가져오기
 
         return newMember;
-        
+
     }
 
 }
