@@ -4,18 +4,24 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
+import java.util.Base64;
 
 @Component
 public class JwtService {
 
     private static final String SALT = "ssafySalt";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String BEARER_PREFIX = "Bearer ";
 
+    // AccessToken 생성
     public <T> String createAccessToken(String key, Long data) {
         String subject = "access-token";
-        long expire = 1000 * 60 * 60 * 24 * 356 * 5; // 5년
+        long expire = 1000 * 60 * 60 * 24 * 356; // 1년
 
         Claims claims = Jwts.claims()
                 // 토큰 제목 설정 ex) access-token
@@ -36,6 +42,7 @@ public class JwtService {
         return jwt;
     }
 
+    // 키생성
     private byte[] generateKey() {
         byte[] key = null;
         try {
@@ -46,5 +53,23 @@ public class JwtService {
 
         return key;
     }
+
+    // 토큰에서 id값 가져오기
+    public Long getIdFromToken(HttpServletRequest request){
+        String accessToken = resolveToken(request);
+
+        Integer i = (Integer)Jwts.parser().setSigningKey(SALT.getBytes()).parseClaimsJws(accessToken).getBody().get("id");
+
+        return new Long(i);
+    }
+
+    private String resolveToken(HttpServletRequest request){
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)){
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
 
 }
