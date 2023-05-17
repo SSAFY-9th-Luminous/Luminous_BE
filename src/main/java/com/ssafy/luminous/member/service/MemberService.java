@@ -65,4 +65,13 @@ public class MemberService {
         }
         throw new IllegalArgumentException("비밀번호가 다릅니다.");
     }
+
+    public Member findMemberByMemberId(String memberId) {
+        Optional<Member> member = memberRepository.findByMemberId(memberId);
+
+        if(member.isPresent()) {
+            return member.get();
+        }
+        throw new IllegalArgumentException("존재하지 않은 사용자입니다.");
+    }
 }

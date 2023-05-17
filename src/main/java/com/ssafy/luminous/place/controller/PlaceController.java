@@ -23,8 +23,8 @@ public class PlaceController {
 
     }
 
-    @PostMapping("")
-    public Long postPlace(@R){
-
-    }
+//    @PostMapping("")
+//    public Long postPlace(@R){
+//
+//    }
 }
