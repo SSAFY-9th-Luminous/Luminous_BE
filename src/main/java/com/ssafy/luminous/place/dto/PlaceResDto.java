@@ -5,14 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.sql.Blob;
 import java.sql.Date;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class PlaceReqDto {
+public class PlaceResDto {
 
     private Long id;
 
@@ -26,7 +25,7 @@ public class PlaceReqDto {
     private Date lastModifiedDate;
 
 
-    private Blob img;
+    private String img;
 
     private Double latitude;
 

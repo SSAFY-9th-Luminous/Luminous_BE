@@ -1,8 +1,10 @@
 package com.ssafy.luminous.place.controller;
 
+import ch.qos.logback.classic.sift.AppenderFactoryUsingJoran;
 import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
+import com.ssafy.luminous.place.dto.PlaceResDto;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,11 @@ public class PlaceController {
     public List<PlaceListResDto> getPlaceList(){
         return placeService.getPlaceList();
 
+    }
+
+    @GetMapping("/{id}")
+    public Place getPlace(@PathVariable Long id){
+        return placeService.getPlace(id);
     }
 
     @PostMapping("")

@@ -3,6 +3,7 @@ package com.ssafy.luminous.place.service;
 import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
+import com.ssafy.luminous.place.dto.PlaceResDto;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,10 @@ public class PlaceService {
         place.update(placeUpdateReqDto);
         return place;
 
+    }
+
+    public Place getPlace(Long id) {
+        Place place =placeRepository.findById(id).orElseThrow();
+        return place;
     }
 }
