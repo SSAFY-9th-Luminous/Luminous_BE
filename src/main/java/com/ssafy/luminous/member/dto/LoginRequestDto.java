@@ -5,13 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 public class LoginRequestDto {
 
-    @NotNull
     private String memberId;
 
-    @NotNull
     private String memberPassword;
 
 
