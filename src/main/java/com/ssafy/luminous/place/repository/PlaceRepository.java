@@ -10,4 +10,17 @@ import java.util.List;
 public interface PlaceRepository extends JpaRepository<Place, Long> {
     @Override
     List<Place> findAll();
+
+    List<Place> findByOrderByCreatedDateDesc();
+
+    List<Place> findByOrderByRate();
+
+    List<Place> findByOrderByHit();
+
+    List<Place> findByPlaceNameContains(String keyword);
+
+    List<Place> findByPlaceDescriptionContains(String keyword);
+
+    List<Place> findByMember_MemberNameContains(String keyword);
+
 }

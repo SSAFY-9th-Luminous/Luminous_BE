@@ -1,5 +1,6 @@
 package com.ssafy.luminous.place.dto;
 
+import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.place.domain.Place;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,6 @@ public class PlaceListResDto {
 
     private Integer hit;
 
-    private Long memberId;
+    private Member member;
 
 }

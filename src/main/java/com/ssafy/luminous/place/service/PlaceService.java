@@ -3,14 +3,12 @@ package com.ssafy.luminous.place.service;
 import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
-import com.ssafy.luminous.place.dto.PlaceResDto;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -19,10 +17,23 @@ public class PlaceService {
 
     private final PlaceRepository placeRepository;
 
-    public List<PlaceListResDto> getPlaceList(){
-        List<Place> places = placeRepository.findAll();
+    public List<PlaceListResDto> getPlaceList(String category, String keyword){
+        List<Place> places;
 
         List<PlaceListResDto> newPlaces =  new ArrayList<>();
+
+        // 유저이름
+        if("user".equals(category)){
+            places = placeRepository.findByMember_MemberNameContains(keyword);
+        }
+        // 설명
+        else if ("desc".equals(category)) {
+            places= placeRepository.findByPlaceDescriptionContains(keyword);
+        }
+        // 장소이름
+        else {
+            places = placeRepository.findByPlaceNameContains(keyword);
+        }
 
         for(Place place : places){
             newPlaces.add(PlaceListResDto.builder()
@@ -32,7 +43,7 @@ public class PlaceService {
                     .hit(place.getHit())
                     .createdDate(place.getCreatedDate())
                     .rate(place.getRate())
-                    .memberId(place.getMember().getId())
+                    .member(place.getMember())
                     .build());
         }
 
