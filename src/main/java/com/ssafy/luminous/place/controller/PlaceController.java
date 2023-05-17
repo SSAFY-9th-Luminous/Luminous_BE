@@ -27,6 +27,11 @@ public class PlaceController {
         // todo jwt member Id
         return placeService.postPlace(placePostReqDto,1L);
     }
+    @DeleteMapping("/{id}")
+    public Boolean deletePlace(@PathVariable Long id){
+        placeService.deletePlace(id);
+        return true;
+    }
 
 
 }
