@@ -28,9 +28,9 @@ public class Place {
     @Column(nullable = false)
     private Date visitedDate;
 
-    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
+//    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
     private Date createdDate;
-    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
+//    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
     private Date lastModifiedDate;
 
     private Blob img;
