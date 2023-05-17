@@ -1,10 +1,7 @@
 package com.ssafy.luminous.place.domain;
 
 import com.ssafy.luminous.member.domain.Member;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Blob;
@@ -12,6 +9,7 @@ import java.sql.Date;
 
 @Entity
 @Getter
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +31,6 @@ public class Place {
     private Date createdDate;
     @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
     private Date lastModifiedDate;
-
 
     private Blob img;
 

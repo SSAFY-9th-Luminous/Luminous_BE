@@ -2,6 +2,7 @@ package com.ssafy.luminous.place.service;
 
 import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
+import com.ssafy.luminous.place.dto.PlacePostReqDto;
 import com.ssafy.luminous.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class PlaceService {
 
     public List<PlaceListResDto> getPlaceList(){
         List<Place> places = placeRepository.findAll();
-        System.out.println(places);
+
         List<PlaceListResDto> newPlaces =  new ArrayList<>();
 
         for(Place place : places){
@@ -34,5 +35,13 @@ public class PlaceService {
         }
 
         return newPlaces;
+    }
+
+    public Place postPlace(PlacePostReqDto placePostReqDto, Long memberId){
+           return placeRepository.save(placePostReqDto.toEntity(memberId));
+    }
+
+    public void deletePlace(Long id) {
+        placeRepository.deleteById(id);
     }
 }

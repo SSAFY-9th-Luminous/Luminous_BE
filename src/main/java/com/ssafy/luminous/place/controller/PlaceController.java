@@ -1,12 +1,11 @@
 package com.ssafy.luminous.place.controller;
 
+import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
+import com.ssafy.luminous.place.dto.PlacePostReqDto;
 import com.ssafy.luminous.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +23,22 @@ public class PlaceController {
     }
 
     @PostMapping("")
-    public Long postPlace(@R){
-
+    public Place postPlace(@RequestBody PlacePostReqDto placePostReqDto){
+        // todo jwt member Id
+        return placeService.postPlace(placePostReqDto,1L);
     }
+
+    @DeleteMapping("/{id}")
+    public Boolean deletePlace(@PathVariable Long id){
+        placeService.deletePlace(id);
+        return true;
+    }
+
+//    @PutMapping("/{id}")
+//    public Place updatePlace(@PathVariable Long id, ){
+//        // todo jwt member Id
+//        return placeService.updatePlace(pac)
+//
+//    }
+
 }
