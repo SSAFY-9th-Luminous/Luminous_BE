@@ -4,7 +4,6 @@ import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
 import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.ssafy.luminous.member.repository.MemberRepository;
-import com.ssafy.luminous.util.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,7 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByMemberId(loginRequestDto.getMemberId());
 
         // 해당 아이디가 존재할 경우
-        if (!member.isPresent()) {
+        if (member.isEmpty()) {
             throw new IllegalArgumentException("존재하지 않은 아이디 입니다.");
         }
         // 비밀번호 비교
@@ -52,10 +51,7 @@ public class MemberService {
     // 아이디 중복 체크
     public boolean isPossibleToUseMemberId(String memberId) {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
-        if (member.isPresent()) {
-            return false;
-        }
-        return true;
+        return member.isEmpty();
     }
 
     // 비밀번호 확인
@@ -66,8 +62,9 @@ public class MemberService {
         throw new IllegalArgumentException("비밀번호가 다릅니다.");
     }
 
-    public Member findMemberByMemberId(String memberId) {
-        Optional<Member> member = memberRepository.findByMemberId(memberId);
+    // 아이디로 사용자 검색
+    public Member findMemberByMemberId(Long id) {
+        Optional<Member> member = memberRepository.findById(id);
 
         if(member.isPresent()) {
             return member.get();

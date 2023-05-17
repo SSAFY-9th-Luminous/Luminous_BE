@@ -44,9 +44,9 @@ public class MemberController {
     }
 
     // 아이디로 사용자 검색
-    @GetMapping("/detail/{memberId}")
-    public Member findMemberByMemberId(@PathVariable("memberId") String memberId) {
-        return memberService.findMemberByMemberId(memberId);
+    @GetMapping("/detail/{id}")
+    public Member findMemberByMemberId(@PathVariable("id") Long id) {
+        return memberService.findMemberByMemberId(id);
     }
 
 
