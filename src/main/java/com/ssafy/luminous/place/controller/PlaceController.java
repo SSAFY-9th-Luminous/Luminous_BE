@@ -5,9 +5,11 @@ import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.service.PlaceService;
+import com.ssafy.luminous.util.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -16,6 +18,7 @@ import java.util.List;
 public class PlaceController {
 
     private final PlaceService placeService;
+    private final JwtService jwtService;
 
     @GetMapping("")
     public List<PlaceListResDto> getPlaceList(
@@ -34,19 +37,21 @@ public class PlaceController {
     }
 
     @PostMapping("")
-    public Place postPlace(@RequestBody PlacePostReqDto placePostReqDto){
-        // todo jwt member Id
-        return placeService.postPlace(placePostReqDto,1L);
+    public Place postPlace(HttpServletRequest request , @RequestBody PlacePostReqDto placePostReqDto){
+        Long memberId = jwtService.getIdFromToken(request);
+        return placeService.postPlace(placePostReqDto,memberId);
     }
     @DeleteMapping("/{id}")
-    public Boolean deletePlace(@PathVariable Long id){
-        placeService.deletePlace(id);
+    public Boolean deletePlace(HttpServletRequest request ,@PathVariable Long id){
+        Long memberId = jwtService.getIdFromToken(request);
+        placeService.deletePlace(id,memberId);
         return true;
     }
 
     @PutMapping("/{id}")
-    public Place updatePlace(@PathVariable Long id, @RequestBody PlaceUpdateReqDto placeUpdateReqDto){
-        return placeService.updatePlace(id, placeUpdateReqDto);
+    public Place updatePlace(HttpServletRequest request ,@PathVariable Long id, @RequestBody PlaceUpdateReqDto placeUpdateReqDto){
+        Long memberId = jwtService.getIdFromToken(request);
+        return placeService.updatePlace(id, placeUpdateReqDto,memberId);
     }
 
 
