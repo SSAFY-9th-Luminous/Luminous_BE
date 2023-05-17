@@ -3,6 +3,7 @@ package com.ssafy.luminous.place.controller;
 import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
+import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,11 @@ public class PlaceController {
     public Boolean deletePlace(@PathVariable Long id){
         placeService.deletePlace(id);
         return true;
+    }
+
+    @PutMapping("/{id}")
+    public Place updatePlace(@PathVariable Long id, @RequestBody PlaceUpdateReqDto placeUpdateReqDto){
+        return placeService.updatePlace(id, placeUpdateReqDto);
     }
 
 

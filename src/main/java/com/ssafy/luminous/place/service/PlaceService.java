@@ -3,6 +3,7 @@ package com.ssafy.luminous.place.service;
 import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
+import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,12 @@ public class PlaceService {
 
     public void deletePlace(Long id) {
         placeRepository.deleteById(id);
+    }
+
+    public Place updatePlace(Long id, PlaceUpdateReqDto placeUpdateReqDto){
+        Place place = placeRepository.findById(id).orElseThrow();
+        place.update(placeUpdateReqDto);
+        return place;
+
     }
 }

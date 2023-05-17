@@ -1,6 +1,7 @@
 package com.ssafy.luminous.place.domain;
 
 import com.ssafy.luminous.member.domain.Member;
+import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -50,4 +51,16 @@ public class Place {
     private Member member;
 
 
+    public void update(PlaceUpdateReqDto placeUpdateReqDto) {
+        this.placeName = placeUpdateReqDto.getPlaceName();
+        this.placeDescription=placeUpdateReqDto.getPlaceDescription();
+        this.visitedDate = placeUpdateReqDto.getVisitedDate();
+        this.lastModifiedDate = new Date(System.currentTimeMillis());
+        this.img = placeUpdateReqDto.getImg();
+        this.latitude = placeUpdateReqDto.getLatitude();
+        this.longitude = placeUpdateReqDto.getLongitude();
+        this.address = placeUpdateReqDto.getAddress();
+        this.rate = placeUpdateReqDto.getRate();
+
+    }
 }
