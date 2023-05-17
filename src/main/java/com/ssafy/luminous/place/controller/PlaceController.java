@@ -38,20 +38,23 @@ public class PlaceController {
 
     @PostMapping("")
     public Place postPlace(HttpServletRequest request , @RequestBody PlacePostReqDto placePostReqDto){
-        Long memberId = jwtService.getIdFromToken(request);
-        return placeService.postPlace(placePostReqDto,memberId);
+//        Long memberId = jwtService.getIdFromToken(request);
+//        return placeService.postPlace(placePostReqDto,memberId);
+        return placeService.postPlace(placePostReqDto);
     }
     @DeleteMapping("/{id}")
     public Boolean deletePlace(HttpServletRequest request ,@PathVariable Long id){
-        Long memberId = jwtService.getIdFromToken(request);
-        placeService.deletePlace(id,memberId);
+//        Long memberId = jwtService.getIdFromToken(request);
+//        placeService.deletePlace(id,memberId);
+        placeService.deletePlace(id);
         return true;
     }
 
     @PutMapping("/{id}")
     public Place updatePlace(HttpServletRequest request ,@PathVariable Long id, @RequestBody PlaceUpdateReqDto placeUpdateReqDto){
-        Long memberId = jwtService.getIdFromToken(request);
-        return placeService.updatePlace(id, placeUpdateReqDto,memberId);
+//        Long memberId = jwtService.getIdFromToken(request);
+//        return placeService.updatePlace(id, placeUpdateReqDto,memberId);
+        return placeService.updatePlace(id, placeUpdateReqDto);
     }
 
 

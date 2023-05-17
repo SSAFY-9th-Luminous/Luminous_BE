@@ -54,7 +54,17 @@ public class PlaceService {
     public Place postPlace(PlacePostReqDto placePostReqDto, Long memberId){
            return placeRepository.save(placePostReqDto.toEntity(memberId));
     }
-
+    public Place postPlace(PlacePostReqDto placePostReqDto){
+        return placeRepository.save(placePostReqDto.toEntity(1L));
+    }
+    public void deletePlace(Long id) {
+        Optional<Place> place = placeRepository.findById(id);
+        if(place.isEmpty()){
+            System.out.println("사용자의 게시글이 아니에요~");
+            throw new RuntimeException("사용자 게시글이 아녜요");
+        }
+        placeRepository.deleteById(id);
+    }
     public void deletePlace(Long id, Long memberId) {
         Optional<Place> place = placeRepository.findByIdAndMember_id(id,memberId);
         if(place.isEmpty()){
@@ -63,7 +73,16 @@ public class PlaceService {
         }
         placeRepository.deleteById(id);
     }
+    public Place updatePlace(Long id, PlaceUpdateReqDto placeUpdateReqDto){
+        Optional<Place> place = placeRepository.findById(id);
+        if(place.isEmpty()){
+            System.out.println("사용자의 게시글이 아니에요~");
+            throw new RuntimeException("사용자 게시글이 아녜요");
+        }
+        place.get().update(placeUpdateReqDto);
+        return place.get();
 
+    }
     public Place updatePlace(Long id, PlaceUpdateReqDto placeUpdateReqDto, Long memberId){
         Optional<Place> place = placeRepository.findByIdAndMember_id(id,memberId);
         if(place.isEmpty()){
