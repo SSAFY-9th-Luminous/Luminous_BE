@@ -13,7 +13,7 @@ public class JwtService {
 
     private static final String SALT = "ssafySalt";
 
-    public <T> String createAccessToken(String key, String data) {
+    public <T> String createAccessToken(String key, Long data) {
         String subject = "access-token";
         long expire = 1000 * 60 * 60 * 24 * 356 * 5; // 5년
 

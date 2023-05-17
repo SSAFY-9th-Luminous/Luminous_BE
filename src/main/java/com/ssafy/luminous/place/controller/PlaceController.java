@@ -28,17 +28,5 @@ public class PlaceController {
         return placeService.postPlace(placePostReqDto,1L);
     }
 
-    @DeleteMapping("/{id}")
-    public Boolean deletePlace(@PathVariable Long id){
-        placeService.deletePlace(id);
-        return true;
-    }
-
-//    @PutMapping("/{id}")
-//    public Place updatePlace(@PathVariable Long id, ){
-//        // todo jwt member Id
-//        return placeService.updatePlace(pac)
-//
-//    }
 
 }

@@ -4,7 +4,6 @@ import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
 import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.ssafy.luminous.member.repository.MemberRepository;
-import com.ssafy.luminous.util.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,11 +39,11 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByMemberId(loginRequestDto.getMemberId());
 
         // 해당 아이디가 존재할 경우
-        if (!member.isPresent()) {
+        if (member.isEmpty()) {
             throw new IllegalArgumentException("존재하지 않은 아이디 입니다.");
         }
         // 비밀번호 비교
-        isValidPassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword());
+        validatePassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword());
 
         return member.get();
     }
@@ -59,10 +58,18 @@ public class MemberService {
     }
 
     // 비밀번호 확인
-    public boolean isValidPassword(String memberPassword, String inputPassword) {
-        if (memberPassword.equals(inputPassword)) {
-            return true;
+    public void validatePassword(String memberPassword, String inputPassword) {
+        if (!memberPassword.equals(inputPassword))
+            throw new IllegalArgumentException("비밀번호가 다릅니다.");
+    }
+
+    // 아이디로 사용자 검색
+    public Member findMemberByMemberId(Long id) {
+        Optional<Member> member = memberRepository.findById(id);
+
+        if(member.isPresent()) {
+            return member.get();
         }
-        throw new IllegalArgumentException("비밀번호가 다릅니다.");
+        throw new IllegalArgumentException("존재하지 않은 사용자입니다.");
     }
 }
