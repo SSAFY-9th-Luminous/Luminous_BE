@@ -14,16 +14,15 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/register")
-    public void register(@RequestBody RegisterRequestDto registerRequestDto){
-        memberService.register(registerRequestDto);
-        
-        // 토큰 리톤해야함
+    public boolean register(@RequestBody RegisterRequestDto registerRequestDto){
+        return memberService.register(registerRequestDto);
     }
 
     // 아이디 중복 체크
     @GetMapping("/check-id/{memberId}")
     public boolean checkId(@PathVariable("memberId") String memberId) {
         return memberService.isPossibleToUseMemberId(memberId);
+
     }
 
 
