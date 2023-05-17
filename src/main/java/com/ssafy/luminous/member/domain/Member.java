@@ -13,7 +13,7 @@ import java.sql.Date;
 @Entity
 @Data
 @Builder
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 @AllArgsConstructor
 public class Member {
 
@@ -21,16 +21,15 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String memberId;
 
-    @NotNull
+    @Column(nullable = false)
     private String memberPassword;
 
-    @NotNull
+    @Column(nullable = false)
     private String memberName;
 
-    @NotNull
+    @Column(nullable = false)
     private Date birth;
 
     private Long constellationId;

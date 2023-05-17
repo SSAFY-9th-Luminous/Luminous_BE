@@ -1,10 +1,8 @@
 package com.ssafy.luminous.place.domain;
 
 import com.ssafy.luminous.member.domain.Member;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Blob;
@@ -12,6 +10,7 @@ import java.sql.Date;
 
 @Entity
 @Getter
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +33,6 @@ public class Place {
     @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
     private Date lastModifiedDate;
 
-
     private Blob img;
 
     @Column(nullable = false)
@@ -53,4 +51,16 @@ public class Place {
     private Member member;
 
 
+    public void update(PlaceUpdateReqDto placeUpdateReqDto) {
+        this.placeName = placeUpdateReqDto.getPlaceName();
+        this.placeDescription=placeUpdateReqDto.getPlaceDescription();
+        this.visitedDate = placeUpdateReqDto.getVisitedDate();
+        this.lastModifiedDate = new Date(System.currentTimeMillis());
+        this.img = placeUpdateReqDto.getImg();
+        this.latitude = placeUpdateReqDto.getLatitude();
+        this.longitude = placeUpdateReqDto.getLongitude();
+        this.address = placeUpdateReqDto.getAddress();
+        this.rate = placeUpdateReqDto.getRate();
+
+    }
 }
