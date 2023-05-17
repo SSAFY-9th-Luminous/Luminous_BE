@@ -9,8 +9,6 @@ import com.ssafy.luminous.util.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -49,7 +47,7 @@ public class MemberController {
     @GetMapping("/detail/{id}")
     public Member findMemberByMemberId(@PathVariable("id") Long id) {
 
-        return memberService.findMemberByMemberId(id);
+        return memberService.findMemberById(id);
     }
 
 

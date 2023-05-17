@@ -64,7 +64,7 @@ public class MemberService {
     }
 
     // 아이디로 사용자 검색
-    public Member findMemberByMemberId(Long id) {
+    public Member findMemberById(Long id) {
         Optional<Member> member = memberRepository.findById(id);
 
         if(member.isPresent()) {
