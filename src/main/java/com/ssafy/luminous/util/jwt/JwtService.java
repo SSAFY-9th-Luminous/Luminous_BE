@@ -9,7 +9,6 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
-import java.util.Base64;
 
 @Component
 public class JwtService {
