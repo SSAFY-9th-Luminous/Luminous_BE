@@ -43,7 +43,7 @@ public class MemberService {
             throw new IllegalArgumentException("존재하지 않은 아이디 입니다.");
         }
         // 비밀번호 비교
-        isValidPassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword());
+        validatePassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword());
 
         return member.get();
     }
@@ -51,15 +51,16 @@ public class MemberService {
     // 아이디 중복 체크
     public boolean isPossibleToUseMemberId(String memberId) {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
-        return member.isEmpty();
+        if (member.isPresent()) {
+            return false;
+        }
+        return true;
     }
 
     // 비밀번호 확인
-    public boolean isValidPassword(String memberPassword, String inputPassword) {
-        if (memberPassword.equals(inputPassword)) {
-            return true;
-        }
-        throw new IllegalArgumentException("비밀번호가 다릅니다.");
+    public void validatePassword(String memberPassword, String inputPassword) {
+        if (!memberPassword.equals(inputPassword))
+            throw new IllegalArgumentException("비밀번호가 다릅니다.");
     }
 
     // 아이디로 사용자 검색
