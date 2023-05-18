@@ -52,6 +52,18 @@ public class MemberService {
         return member.get();
     }
 
+    // 회원탈퇴
+    public boolean deleteMember(Long id) {
+        try {
+            memberRepository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     // 아이디 중복 체크
     public boolean isPossibleToUseMemberId(String memberId) {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
