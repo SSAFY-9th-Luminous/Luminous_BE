@@ -1,5 +1,7 @@
 package com.ssafy.luminous.place.controller;
 
+import com.ssafy.luminous.config.BaseException;
+import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
@@ -32,8 +34,14 @@ public class PlaceController {
     }
 
     @GetMapping("/{id}")
-    public Place getPlace(@PathVariable Long id){
-        return placeService.getPlace(id);
+    public BaseResponse<Place> getPlace(@PathVariable Long id){
+        try {
+            return new BaseResponse<>(placeService.getPlace(id)) ;
+        }
+        catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+
     }
 
     @PostMapping("")

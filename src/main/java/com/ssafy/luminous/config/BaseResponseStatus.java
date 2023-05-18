@@ -27,8 +27,8 @@ public enum BaseResponseStatus {
 
 
     // 2301 - 2600 준혁
-
-
+    NOT_OWNER(false,2301,"게시글 권한이 없습니다."),
+    CAN_NOT_FOUND_PLACE(false, 2302, "마이플레이스를 찾을 수 없습니다."),
     // 2601 - 3000 준모
 
 

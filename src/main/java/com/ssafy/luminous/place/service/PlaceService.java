@@ -1,5 +1,7 @@
 package com.ssafy.luminous.place.service;
 
+import com.ssafy.luminous.config.BaseException;
+import com.ssafy.luminous.config.BaseResponseStatus;
 import com.ssafy.luminous.place.domain.Place;
 import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.ssafy.luminous.config.BaseResponseStatus.NOT_OWNER;
 
 @Service
 @RequiredArgsConstructor
@@ -83,19 +87,24 @@ public class PlaceService {
         return place.get();
 
     }
-    public Place updatePlace(Long id, PlaceUpdateReqDto placeUpdateReqDto, Long memberId){
+    public Place updatePlace(Long id, PlaceUpdateReqDto placeUpdateReqDto, Long memberId) throws BaseException {
+
         Optional<Place> place = placeRepository.findByIdAndMember_id(id,memberId);
         if(place.isEmpty()){
             System.out.println("사용자의 게시글이 아니에요~");
-            throw new RuntimeException("사용자 게시글이 아녜요");
+            throw new BaseException(NOT_OWNER);
         }
         place.get().update(placeUpdateReqDto);
         return place.get();
 
+
     }
 
-    public Place getPlace(Long id) {
-        Place place =placeRepository.findById(id).orElseThrow();
-        return place;
+    public Place getPlace(Long id) throws BaseException {
+        Optional<Place> place =placeRepository.findById(id);
+        if(place.isEmpty()){
+            throw new BaseException(NOT_OWNER);
+        }
+        return place.get();
     }
 }
