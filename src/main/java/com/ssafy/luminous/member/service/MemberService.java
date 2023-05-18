@@ -51,10 +51,7 @@ public class MemberService {
     // 아이디 중복 체크
     public boolean isPossibleToUseMemberId(String memberId) {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
-        if (member.isPresent()) {
-            return false;
-        }
-        return true;
+        return member.isEmpty();
     }
 
     // 비밀번호 확인
