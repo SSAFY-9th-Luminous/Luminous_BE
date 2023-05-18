@@ -39,7 +39,6 @@ public class ConstellationDetail {
     private String img;
 
     @OneToOne
-    @JoinColumn(name ="id")
     Constellation constellation;
 
 }
