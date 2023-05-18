@@ -38,7 +38,4 @@ public class ConstellationDetail {
 
     private String img;
 
-    @OneToOne
-    Constellation constellation;
-
 }
