@@ -3,6 +3,9 @@ package com.ssafy.luminous.place.domain;
 import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Blob;
@@ -28,9 +31,10 @@ public class Place {
     @Column(nullable = false)
     private Date visitedDate;
 
-//    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
+    @CreationTimestamp
     private Date createdDate;
-//    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
+
+    @UpdateTimestamp
     private Date lastModifiedDate;
 
     private Blob img;
@@ -40,8 +44,10 @@ public class Place {
     @Column(nullable = false)
     private Double longitude;
 
+    @Column(nullable = false)
     private String address;
 
+    @Column(columnDefinition = "double default 0")
     private Double rate = (double) 0;
 
     private Integer hit = 0;
