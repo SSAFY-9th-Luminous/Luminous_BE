@@ -38,3 +38,4 @@ out/
 
 ### SpringBoot ###
 src/main/resources/application.properties
+*.properties
