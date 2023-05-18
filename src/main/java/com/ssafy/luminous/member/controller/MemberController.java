@@ -50,8 +50,13 @@ public class MemberController {
 
     // 아이디 중복 체크
     @GetMapping("/check-id/{memberId}")
-    public boolean checkId(@PathVariable("memberId") String memberId) {
-        return memberService.isPossibleToUseMemberId(memberId);
+    public BaseResponse<Object> checkId(@PathVariable("memberId") String memberId) {
+
+        if (memberService.isPossibleToUseMemberId(memberId)) {
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+        }
+
+        return new BaseResponse<>(BaseResponseStatus.DUPLICATED_ID);
 
     }
 
