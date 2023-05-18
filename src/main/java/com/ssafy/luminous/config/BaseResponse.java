@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import static com.ssafy.luminous.config.BaseResponseStatus.SUCCESS;
-import static spring.reborn.config.BaseResponseStatus.SUCCESS;
 
 @Getter
 @AllArgsConstructor
