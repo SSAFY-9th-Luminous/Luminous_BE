@@ -23,17 +23,22 @@ public class CampingUtil {
     private final CampingRepository campingRepository;
 
     private @Value("${api.key.camping}") String serviceKey;
-    private int page = 1;
+
+    // 1,000개 데이터 가져오기
+    private static final int NUM_OF_ROWS = 100;
+    private static final int NUM_OF_PAGES = 10;
 
     public void storeCamping() throws IOException, ParserConfigurationException, SAXException {
+        int page = 1;
+
         while (true) {
 
-            String urlStr = "https://apis.data.go.kr/B551011/GoCamping/basedList?" +
-                    "serviceKey=" + serviceKey + "&" +
-                    "numOfRows=10&" +
-                    "pageNo=" + page + "&" +
-                    "MobileOS=ETC&" +
-                    "MobileApp=AppTest";
+            String urlStr = "https://apis.data.go.kr/B551011/GoCamping/basedList" +
+                    "?serviceKey=" + serviceKey +
+                    "&numOfRows=" + NUM_OF_ROWS +
+                    "&pageNo=" + page +
+                    "&MobileOS=ETC" +
+                    "&MobileApp=Luminous";
 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();
@@ -60,6 +65,7 @@ public class CampingUtil {
                             .homepage(getTagValue("homepage", eElement))
                             .glamping(getTagValue("glampInnerFclty", eElement))
                             .caravan(getTagValue("caravInnerFclty", eElement))
+                            .imageUrl(getTagValue("firstImageUrl", eElement))
                             .build();
 
                     campingRepository.save(camping);
@@ -67,8 +73,7 @@ public class CampingUtil {
             }   // for end
 
             page++;
-
-            if (page > 20) {
+            if (page > NUM_OF_PAGES) {
                 break;
             }
 

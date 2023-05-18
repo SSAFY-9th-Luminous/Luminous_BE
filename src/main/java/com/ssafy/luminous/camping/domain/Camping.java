@@ -26,20 +26,17 @@ public class Camping {
 
     private String lineIntro;
 
-    @Column(length = 2000)
+    @Column(length = 10000)
     private String intro;
 
     private String doName;
 
     private String siGunGuName;
 
-    @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
     private Double latitude;       // 위도
 
-    @Column(nullable = false)
     private Double longitude;       // 경도
 
     private String tel;
@@ -49,5 +46,7 @@ public class Camping {
     private String glamping;
 
     private String caravan;
+
+    private String imageUrl;
 
 }
