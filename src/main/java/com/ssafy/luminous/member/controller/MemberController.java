@@ -1,5 +1,7 @@
 package com.ssafy.luminous.member.controller;
 
+import com.ssafy.luminous.config.BaseResponse;
+import com.ssafy.luminous.config.BaseResponseStatus;
 import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
 import com.ssafy.luminous.member.dto.LoginResponseDto;
@@ -20,34 +22,56 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/register")
-    public boolean register(@RequestBody RegisterRequestDto registerRequestDto){
-        return memberService.register(registerRequestDto);
+    public BaseResponse<Object> register(@RequestBody RegisterRequestDto registerRequestDto){
+        if (memberService.register(registerRequestDto)) {
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+        }
+
+        return new BaseResponse<>(BaseResponseStatus.FAILED_TO_REGISTER);
     }
 
     // 로그인
     @PostMapping("/login")
-    public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto) {
-        Member member = memberService.login(loginRequestDto);
+    public BaseResponse<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+        Member member;
+        try {
+            member = memberService.login(loginRequestDto);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return new BaseResponse<>(BaseResponseStatus.FAILED_TO_LOGIN);
+        }
 
         String accessToken = jwtService.createAccessToken("id", member.getId());
 
         LoginResponseDto loginResponseDto = new LoginResponseDto(accessToken, member);
 
-        return loginResponseDto;
+        return new BaseResponse<>(loginResponseDto);
     }
 
     // 아이디 중복 체크
     @GetMapping("/check-id/{memberId}")
-    public boolean checkId(@PathVariable("memberId") String memberId) {
-        return memberService.isPossibleToUseMemberId(memberId);
+    public BaseResponse<Object> checkId(@PathVariable("memberId") String memberId) {
+
+        if (memberService.isPossibleToUseMemberId(memberId)) {
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+        }
+
+        return new BaseResponse<>(BaseResponseStatus.DUPLICATED_ID);
 
     }
 
     // 아이디로 사용자 검색
     @GetMapping("/detail/{id}")
-    public Member findMemberByMemberId(@PathVariable("id") Long id) {
+    public BaseResponse<Member> findMemberByMemberId(@PathVariable("id") Long id) {
+        Member member;
+        try {
+            member = memberService.findMemberById(id);
+        } catch (IllegalArgumentException e) {
+            System.out.print(e.getMessage());
+            return new BaseResponse<>(BaseResponseStatus.NOT_MATCHED_ID);
+        }
 
-        return memberService.findMemberById(id);
+        return new BaseResponse<>(member);
     }
 
 

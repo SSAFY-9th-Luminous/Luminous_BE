@@ -23,7 +23,9 @@ public enum BaseResponseStatus {
     INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
 
     // users
-    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
+    NOT_MATCHED_ID(false, 2050, "일치하는 아이디가 없습니다."),
+    DUPLICATED_ID(false, 2051, "중복된 아이디입니다."),
+    FAILED_TO_LOGIN(false,2052,"아이디 혹은 비밀번호가 일치하지 않습니다."),
 
 
     // 2301 - 2600 준혁
@@ -39,8 +41,7 @@ public enum BaseResponseStatus {
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
 
     // [POST] /users
-    DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
-    FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다.");
+    FAILED_TO_REGISTER(false, 3050, "회원가입에 실패했습니다.");
 
     /**
      * 4000 : Database, Server 오류
