@@ -7,10 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Fortune {
@@ -20,6 +21,7 @@ public class Fortune {
 
     private Date date;
 
+    @Lob
     private String description;
 
     @OneToOne
