@@ -32,7 +32,7 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public BaseResponse<Object> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public BaseResponse<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
         Member member;
         try {
             member = memberService.login(loginRequestDto);
@@ -62,9 +62,16 @@ public class MemberController {
 
     // 아이디로 사용자 검색
     @GetMapping("/detail/{id}")
-    public Member findMemberByMemberId(@PathVariable("id") Long id) {
+    public BaseResponse<Member> findMemberByMemberId(@PathVariable("id") Long id) {
+        Member member;
+        try {
+            member = memberService.findMemberById(id);
+        } catch (IllegalArgumentException e) {
+            System.out.print(e.getMessage());
+            return new BaseResponse<>(BaseResponseStatus.NOT_MATCHED_ID);
+        }
 
-        return memberService.findMemberById(id);
+        return new BaseResponse<>(member);
     }
 
 
