@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 
@@ -70,5 +71,8 @@ public class JwtService {
         return null;
     }
 
+    public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
+        response.setHeader(AUTHORIZATION_HEADER, accessToken);
+    }
 
 }
