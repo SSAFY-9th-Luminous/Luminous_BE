@@ -19,13 +19,17 @@ public class Observatory {
     @Column(nullable = false)
     private String observatoryName;
 
-    private Boolean isObservable;
+    @Column(nullable = false)
+    private Integer isObservable;
 
-    private Boolean hasExhibition;
+    @Column(nullable = false)
+    private Integer hasExhibition;
 
-    private Boolean hasLodgment;
+    @Column(nullable = false)
+    private Integer hasLodgment;
 
-    private Boolean hasPlaintarium;
+    @Column(nullable = false)
+    private Integer hasPlaintarium;
 
     private String homePage;
 
@@ -34,6 +38,7 @@ public class Observatory {
     @Column(nullable = false)
     private String address;
 
+    @Column(columnDefinition = "double default 0")
     private Double rate;
 
 

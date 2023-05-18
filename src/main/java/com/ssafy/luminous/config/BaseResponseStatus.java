@@ -31,6 +31,13 @@ public enum BaseResponseStatus {
     // 2301 - 2600 준혁
     NOT_OWNER(false,2301,"게시글 권한이 없습니다."),
     CAN_NOT_FOUND_PLACE(false, 2302, "마이플레이스를 찾을 수 없습니다."),
+    GPT_API_ERROR(false, 2303, "현재 ChatGPT 사용에 문제가 발생했습니다."),
+
+
+
+
+
+
     // 2601 - 3000 준모
 
 
@@ -42,11 +49,13 @@ public enum BaseResponseStatus {
 
     // [POST] /users
     FAILED_TO_REGISTER(false, 3050, "회원가입에 실패했습니다."),
-    FAILED_TO_DELETE(false, 3051, "회원탈퇴에 실패했습니다.");
+    FAILED_TO_DELETE(false, 3051, "회원탈퇴에 실패했습니다."),
 
     /**
      * 4000 : Database, Server 오류
      */
+
+    DATABASE_ERROR(false, 4000, "데이터베이스에 문제가 발생했습니다.");
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요
 
