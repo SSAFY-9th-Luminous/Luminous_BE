@@ -41,7 +41,8 @@ public enum BaseResponseStatus {
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
 
     // [POST] /users
-    FAILED_TO_REGISTER(false, 3050, "회원가입에 실패했습니다.");
+    FAILED_TO_REGISTER(false, 3050, "회원가입에 실패했습니다."),
+    FAILED_TO_DELETE(false, 3051, "회원탈퇴에 실패했습니다.");
 
     /**
      * 4000 : Database, Server 오류
