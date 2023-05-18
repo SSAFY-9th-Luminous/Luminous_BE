@@ -45,7 +45,7 @@ public class MemberService {
             throw new IllegalArgumentException("아이디가 일치하지 않습니다");
         }
         // 비밀번호 비교
-        if (validatePassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword())){
+        if (!validatePassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword())){
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
