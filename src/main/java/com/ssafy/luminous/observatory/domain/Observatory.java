@@ -26,10 +26,10 @@ public class Observatory {
     private Integer hasExhibition;
 
     @Column(nullable = false)
-    private Integer hasLodgment;
+    private Integer hasLodgement;
 
     @Column(nullable = false)
-    private Integer hasPlaintarium;
+    private Integer hasPlanetarium;
 
     private String homePage;
 
