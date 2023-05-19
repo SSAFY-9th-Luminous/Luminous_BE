@@ -57,6 +57,13 @@ public class CampingController {
         return new BaseResponse<>(campingService.getCampingList(region));
     }
 
+    @GetMapping("/map")
+    public BaseResponse<List<Camping>> getCampingListToMap(
+            @RequestParam(value = "region", defaultValue = "") String region
+    ) {
+        return new BaseResponse<>(campingService.findByDoNameContaining(region));
+    }
+
 //    @GetMapping("/location")
 //    public BaseResponse<List<Camping>> getCampingByLocation(@RequestParam("pageNumber") int pageNumber, @RequestParam("")) {
 //

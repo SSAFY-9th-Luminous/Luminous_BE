@@ -90,6 +90,11 @@ public class CampingService {
         return campingListResponseDtoList;
     }
 
+    public List<Camping> findByDoNameContaining(String doName) {
+        return campingRepository.findByDoNameContaining(doName);
+    }
+
+
 
 
 //    public List<CampingListResponseDto> getCampingByLocation(int pageNumber) throws ParserConfigurationException, IOException, SAXException {
