@@ -12,13 +12,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/observatorys")
+@RequestMapping("/observatory")
 public class ObservatoryController {
 
     private final ObservatoryService observatoryService;
 
-    @GetMapping("")
-    public List<Observatory> getPlaceList(
+    @GetMapping("/map")
+    public List<Observatory> getObservatoryListToMap(
             // keyword {address}
             @RequestParam(value = "address", defaultValue = "") String keyword
     ){
