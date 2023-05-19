@@ -1,6 +1,7 @@
 package com.ssafy.luminous.camping.util.api;
 
 import com.ssafy.luminous.camping.domain.Camping;
+import com.ssafy.luminous.camping.domain.CampingImage;
 import com.ssafy.luminous.camping.repository.CampingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -24,18 +27,20 @@ public class CampingUtil {
 
     private @Value("${api.key.camping}") String serviceKey;
 
-    // 1,000개 데이터 가져오기
-    private static final int NUM_OF_ROWS = 100;
-    private static final int NUM_OF_PAGES = 10;
+
 
     public void storeCamping() throws IOException, ParserConfigurationException, SAXException {
         int page = 1;
+
+        // 가져올 데이터 최대 개수
+        final int numOfRows = 100;
+        final int numOfPages = 10;
 
         while (true) {
 
             String urlStr = "https://apis.data.go.kr/B551011/GoCamping/basedList" +
                     "?serviceKey=" + serviceKey +
-                    "&numOfRows=" + NUM_OF_ROWS +
+                    "&numOfRows=" + numOfRows +
                     "&pageNo=" + page +
                     "&MobileOS=ETC" +
                     "&MobileApp=Luminous";
@@ -73,7 +78,7 @@ public class CampingUtil {
             }   // for end
 
             page++;
-            if (page > NUM_OF_PAGES) {
+            if (page > numOfPages) {
                 break;
             }
 
@@ -81,7 +86,11 @@ public class CampingUtil {
 
     }
 
-    private static String getTagValue(String tag, Element eElement) {
+    public String getServiceKey() {
+        return serviceKey;
+    }
+
+    public static String getTagValue(String tag, Element eElement) {
         NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
         Node nValue = (Node) nlList.item(0);
         if(nValue == null)
