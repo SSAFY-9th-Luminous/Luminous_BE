@@ -10,6 +10,7 @@ import com.ssafy.luminous.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -106,5 +107,10 @@ public class PlaceService {
             throw new BaseException(NOT_OWNER);
         }
         return place.get();
+    }
+
+    @Transactional
+    public int updateHit(Long id) {
+        return placeRepository.updateHit(id);
     }
 }

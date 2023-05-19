@@ -36,6 +36,7 @@ public class PlaceController {
     @GetMapping("/{id}")
     public BaseResponse<Place> getPlace(@PathVariable Long id){
         try {
+            placeService.updateHit(id);
             return new BaseResponse<>(placeService.getPlace(id)) ;
         }
         catch (BaseException exception){
