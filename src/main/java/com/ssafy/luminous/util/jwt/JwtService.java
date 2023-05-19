@@ -58,9 +58,9 @@ public class JwtService {
     public Long getIdFromToken(HttpServletRequest request){
         String accessToken = resolveToken(request);
 
-        Integer i = (Integer)Jwts.parser().setSigningKey(SALT.getBytes()).parseClaimsJws(accessToken).getBody().get("id");
+        Integer id = (Integer)Jwts.parser().setSigningKey(SALT.getBytes()).parseClaimsJws(accessToken).getBody().get("id");
 
-        return new Long(i);
+        return new Long(id);
     }
 
     private String resolveToken(HttpServletRequest request){
