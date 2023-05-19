@@ -37,7 +37,7 @@ public class Place {
     @UpdateTimestamp
     private Date lastModifiedDate;
 
-    private Blob img;
+    private String img;
 
     @Column(nullable = false)
     private Double latitude;

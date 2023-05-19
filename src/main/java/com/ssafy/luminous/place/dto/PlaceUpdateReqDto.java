@@ -21,7 +21,7 @@ public class PlaceUpdateReqDto {
 
     private Date visitedDate;
 
-    private Blob img;
+    private String img;
 
     private Double latitude;
 
