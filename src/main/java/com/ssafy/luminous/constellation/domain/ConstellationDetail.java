@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,11 +27,16 @@ public class ConstellationDetail {
     @Column(nullable = false)
     private String engName;
 
-    @Column(nullable = false)
-    private Date meridianDate;
+    private LocalDateTime meridianDateTime;
 
     @Column(nullable = false)
     private Integer amountOfStars;
+
+    @Column(nullable = false)
+    private String size;
+
+    @Column(nullable = false)
+    private String location;
 
     @Lob
     @Column(nullable = false)

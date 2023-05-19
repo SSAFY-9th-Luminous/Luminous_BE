@@ -11,7 +11,7 @@ import java.sql.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Constellation {
+public class Constellation12 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,7 @@
 package com.ssafy.luminous.fortune.service;
 
 import com.ssafy.luminous.config.BaseException;
-import com.ssafy.luminous.constellation.domain.Constellation;
+import com.ssafy.luminous.constellation.domain.Constellation12;
 import com.ssafy.luminous.constellation.service.ConstellationService;
 import com.ssafy.luminous.fortune.domain.Fortune;
 import com.ssafy.luminous.fortune.dto.FortuneResDto;
@@ -10,7 +10,6 @@ import com.ssafy.luminous.util.gpt.ChatGPTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.plaf.metal.MetalIconFactory;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,8 +38,8 @@ public class FortuneService {
             List<FortuneResDto> fortuneResDtoList = new LinkedList<>();
             for (Fortune fortune: fortuneList) {
                 fortuneResDtoList.add(FortuneResDto.builder()
-                                .contentsId(fortune.getConstellation().getId())
-                                .contentsName(fortune.getConstellation().getConstellationDetail().getContentsName())
+                                .contentsId(fortune.getConstellation12().getId())
+                                .contentsName(fortune.getConstellation12().getConstellationDetail().getContentsName())
                                 .description(fortune.getDescription())
                         .build())
                         ;
@@ -59,9 +58,9 @@ public class FortuneService {
                 return;
             }
 
-            List<Constellation> constellationList = constellationService.getConstellationList();
-            for (Constellation constellation : constellationList) {
-                String name = constellation.getConstellationDetail().getContentsName();
+            List<Constellation12> constellation12List = constellationService.getConstellationList();
+            for (Constellation12 constellation12 : constellation12List) {
+                String name = constellation12.getConstellationDetail().getContentsName();
 //            String prompt = name + "의 오늘의 운세는 어떤지 긍정적인 것과 부정적인 것에 대해서 작성해주고, 오늘의 추천 아이템 정보도 알려줘";
                 String prompt = name + "의 오늘의 운세 20자 이하로 간단하게 알려줘";
                 // maxTokens 응답 컨텍스트의 길이
@@ -71,7 +70,7 @@ public class FortuneService {
                 Fortune fortune = Fortune.builder()
                         .date(new Date(System.currentTimeMillis()))
                         .description(answer)
-                        .constellation(constellation)
+                        .constellation12(constellation12)
                         .build();
 
                 fortuneRepository.save(fortune);

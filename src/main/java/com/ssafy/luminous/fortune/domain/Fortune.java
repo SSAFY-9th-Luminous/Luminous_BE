@@ -1,6 +1,6 @@
 package com.ssafy.luminous.fortune.domain;
 
-import com.ssafy.luminous.constellation.domain.Constellation;
+import com.ssafy.luminous.constellation.domain.Constellation12;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class Fortune {
     private String description;
 
     @OneToOne
-    private Constellation constellation;
+    private Constellation12 constellation12;
 
 
 }
