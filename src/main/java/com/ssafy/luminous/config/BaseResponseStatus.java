@@ -55,7 +55,8 @@ public enum BaseResponseStatus {
      * 4000 : Database, Server 오류
      */
 
-    DATABASE_ERROR(false, 4000, "데이터베이스에 문제가 발생했습니다.");
+    DATABASE_ERROR(false, 4000, "데이터베이스에 문제가 발생했습니다."),
+    API_ERROR(false, 4100, "API호출에 문제가 발생했습니다.");
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요
 
