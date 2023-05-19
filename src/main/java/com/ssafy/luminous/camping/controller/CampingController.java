@@ -1,15 +1,16 @@
 package com.ssafy.luminous.camping.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
+import com.ssafy.luminous.camping.domain.Camping;
 import com.ssafy.luminous.camping.domain.CampingImage;
+import com.ssafy.luminous.camping.dto.CampingListResponseDto;
 import com.ssafy.luminous.camping.service.CampingService;
 import com.ssafy.luminous.camping.util.api.CampingUtil;
 import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.config.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -20,7 +21,8 @@ public class CampingController {
     private final CampingService campingService;
     private final CampingUtil campingUtil;
 
-    @GetMapping("/")
+    // DB에 Camping 데이터 저장
+    @GetMapping("/store")
     public BaseResponse<Object> callStoreCamping() {
         try {
             campingUtil.storeCamping();
@@ -32,6 +34,7 @@ public class CampingController {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
+    // 캠핑장 이미지 반환
     @GetMapping("/image/{campingId}")
     public BaseResponse<List<CampingImage>> getCampingImages(@PathVariable("campingId") String campingId) {
         List<CampingImage> campingImageList;
@@ -44,6 +47,23 @@ public class CampingController {
 
         return new BaseResponse<>(campingImageList);
     }
+    
+    // 캠핑장 리스트 반환
+    @GetMapping("")
+    public BaseResponse<List<CampingListResponseDto>> getCampingList(
+            @RequestParam(value = "region", defaultValue = "") String region
+            ) {
+
+        return new BaseResponse<>(campingService.getCampingList(region));
+    }
+
+//    @GetMapping("/location")
+//    public BaseResponse<List<Camping>> getCampingByLocation(@RequestParam("pageNumber") int pageNumber, @RequestParam("")) {
+//
+//
+//    }
+
+
 
 
 

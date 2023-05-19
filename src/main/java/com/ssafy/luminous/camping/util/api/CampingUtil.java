@@ -27,8 +27,6 @@ public class CampingUtil {
 
     private @Value("${api.key.camping}") String serviceKey;
 
-
-
     public void storeCamping() throws IOException, ParserConfigurationException, SAXException {
         int page = 1;
 
