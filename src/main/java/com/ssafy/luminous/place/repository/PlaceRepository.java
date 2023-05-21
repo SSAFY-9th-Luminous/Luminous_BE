@@ -31,7 +31,8 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
 
 
+
     @Modifying
-    @Query(value = "update Place set Place.hit = Place.hit + 1 where Place.id = :id", nativeQuery = true)
+    @Query(value = "update place set place.hit = place.hit + 1 where place.id = :id", nativeQuery = true)
     int updateHit(@Param("id") Long id);
 }
