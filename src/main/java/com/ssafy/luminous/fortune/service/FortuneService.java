@@ -20,8 +20,7 @@ import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.ssafy.luminous.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.ssafy.luminous.config.BaseResponseStatus.GPT_API_ERROR;
+import static com.ssafy.luminous.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -103,7 +102,7 @@ public class FortuneService {
                     .build();
             return todayFortuneResDto;
         } catch (Exception e) {
-            throw new BaseException(DATABASE_ERROR);
+            throw new BaseException(CAN_NOT_CALL_TODAY_FORTUNE);
         }
 
     }

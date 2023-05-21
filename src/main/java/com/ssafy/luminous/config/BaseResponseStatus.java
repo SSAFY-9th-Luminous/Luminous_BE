@@ -32,6 +32,7 @@ public enum BaseResponseStatus {
     NOT_OWNER(false,2301,"게시글 권한이 없습니다."),
     CAN_NOT_FOUND_PLACE(false, 2302, "마이플레이스를 찾을 수 없습니다."),
     GPT_API_ERROR(false, 2303, "현재 ChatGPT 사용에 문제가 발생했습니다."),
+    CAN_NOT_CALL_TODAY_FORTUNE(false,2304,"오늘의 운세를 불러올 수 없습니다."),
 
 
 
