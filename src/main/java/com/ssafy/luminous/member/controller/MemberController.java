@@ -11,6 +11,8 @@ import com.ssafy.luminous.util.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public BaseResponse<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public BaseResponse<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         Member member;
         try {
             member = memberService.login(loginRequestDto);
@@ -45,6 +47,7 @@ public class MemberController {
 
         LoginResponseDto loginResponseDto = new LoginResponseDto(accessToken, member);
 
+        jwtService.setHeaderAccessToken(response, accessToken);
         return new BaseResponse<>(loginResponseDto);
     }
 
