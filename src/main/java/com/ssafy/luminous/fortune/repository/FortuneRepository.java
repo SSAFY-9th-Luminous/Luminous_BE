@@ -13,4 +13,6 @@ public interface FortuneRepository extends JpaRepository<Fortune,Long> {
     Optional<Fortune> findById(Long id);
     List<Fortune> findByDate(Date date);
 
+    Fortune findByConstellation12_id(Long constellation12Id);
+
 }

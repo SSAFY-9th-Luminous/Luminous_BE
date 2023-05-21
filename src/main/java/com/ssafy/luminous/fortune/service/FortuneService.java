@@ -4,11 +4,17 @@ import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.constellation.domain.Constellation12;
 import com.ssafy.luminous.constellation.service.ConstellationService;
 import com.ssafy.luminous.fortune.domain.Fortune;
+import com.ssafy.luminous.fortune.dto.FortuneReqDto;
 import com.ssafy.luminous.fortune.dto.FortuneResDto;
+import com.ssafy.luminous.fortune.dto.TodayFortuneResDto;
 import com.ssafy.luminous.fortune.repository.FortuneRepository;
+import com.ssafy.luminous.member.domain.Member;
+import com.ssafy.luminous.member.service.MemberService;
 import com.ssafy.luminous.util.gpt.ChatGPTService;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.LinkedList;
@@ -24,25 +30,28 @@ public class FortuneService {
     private final FortuneRepository fortuneRepository;
 
     private final ConstellationService constellationService;
+    private final MemberService memberService;
     private final ChatGPTService chatGPTService;
 
 
+    @Transactional
     public Fortune getFortune(Long id) {
         return fortuneRepository.findById(id).orElseThrow();
 
     }
 
+    @Transactional(readOnly = true)
     public List<FortuneResDto> getTodayFortuneList() throws BaseException {
         try {
             List<Fortune> fortuneList = fortuneRepository.findByDate(new Date(System.currentTimeMillis()));
             List<FortuneResDto> fortuneResDtoList = new LinkedList<>();
-            for (Fortune fortune: fortuneList) {
+            for (Fortune fortune : fortuneList) {
                 fortuneResDtoList.add(FortuneResDto.builder()
-                                .contentsId(fortune.getConstellation12().getId())
-                                .contentsName(fortune.getConstellation12().getConstellationDetail().getContentsName())
-                                .description(fortune.getDescription())
+                        .contentsId(fortune.getConstellation12().getId())
+                        .contentsName(fortune.getConstellation12().getConstellationDetail().getContentsName())
+                        .description(fortune.getDescription())
                         .build())
-                        ;
+                ;
 
             }
             return fortuneResDtoList;
@@ -51,10 +60,11 @@ public class FortuneService {
         }
     }
 
+    @Transactional
     public void createFortune() throws BaseException {
         try {
             // 이미 오늘 만든 운세가 있다면
-            if(fortuneRepository.findByDate(new Date(System.currentTimeMillis())).size() > 12){
+            if (fortuneRepository.findByDate(new Date(System.currentTimeMillis())).size() > 12) {
                 return;
             }
 
@@ -75,11 +85,26 @@ public class FortuneService {
 
                 fortuneRepository.save(fortune);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new BaseException(GPT_API_ERROR);
         }
 
+
+    }
+
+    @Transactional(readOnly = true)
+    public TodayFortuneResDto getTodayFortune(Long memberId) throws BaseException {
+        try {
+            Member member = memberService.findMemberById(memberId);
+            Fortune fortune = fortuneRepository.findByConstellation12_id(member.getConstellation12().getId());
+            TodayFortuneResDto todayFortuneResDto = TodayFortuneResDto.builder()
+                    .name(fortune.getConstellation12().getConstellationDetail().getContentsName())
+                    .description(fortune.getDescription())
+                    .build();
+            return todayFortuneResDto;
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 package com.ssafy.luminous.member.domain;
 
+import com.ssafy.luminous.constellation.domain.Constellation12;
 import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,5 +34,8 @@ public class Member {
     private Date birth;
 
     private Long constellationId;
+
+    @OneToOne
+    private Constellation12 constellation12;
 
 }
