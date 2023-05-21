@@ -57,7 +57,7 @@ public class Place {
     private Member member;
 
 
-    public void update(PlaceUpdateReqDto placeUpdateReqDto) {
+    public Place update(PlaceUpdateReqDto placeUpdateReqDto) {
         this.placeName = placeUpdateReqDto.getPlaceName();
         this.placeDescription=placeUpdateReqDto.getPlaceDescription();
         this.visitedDate = placeUpdateReqDto.getVisitedDate();
@@ -67,6 +67,6 @@ public class Place {
         this.longitude = placeUpdateReqDto.getLongitude();
         this.address = placeUpdateReqDto.getAddress();
         this.rate = placeUpdateReqDto.getRate();
-
+        return this;
     }
 }

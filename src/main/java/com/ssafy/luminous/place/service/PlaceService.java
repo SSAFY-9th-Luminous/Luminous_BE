@@ -102,8 +102,7 @@ public class PlaceService {
             System.out.println("사용자의 게시글이 아니에요~");
             throw new BaseException(NOT_OWNER);
         }
-        place.get().update(placeUpdateReqDto);
-        return place.get();
+        return placeRepository.save(place.get().update(placeUpdateReqDto));
 
     }
 
