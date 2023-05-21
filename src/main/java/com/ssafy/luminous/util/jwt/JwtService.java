@@ -79,7 +79,7 @@ public class JwtService {
     }
 
     public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
-        response.setHeader(AUTHORIZATION_HEADER, BEARER_PREFIX + accessToken);
+        response.setHeader(AUTHORIZATION_HEADER, accessToken);
     }
 
 }
