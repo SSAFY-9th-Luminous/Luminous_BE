@@ -9,7 +9,7 @@ public class ObservatoryListResponseDto {
 
     private Long id;
 
-    private String siName;
+    private String siDoName;
 
     private String observatoryName;
 
