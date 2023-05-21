@@ -1,5 +1,6 @@
 package com.ssafy.luminous.observatory.controller;
 
+import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.observatory.domain.Observatory;
 import com.ssafy.luminous.observatory.service.ObservatoryService;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,11 @@ public class ObservatoryController {
     private final ObservatoryService observatoryService;
 
     @GetMapping("/map")
-    public List<Observatory> getObservatoryListToMap(
+    public BaseResponse<List<Observatory>> getObservatoryListToMap(
             // keyword {address}
             @RequestParam(value = "address", defaultValue = "") String keyword
     ){
 
-        return observatoryService.getObservatoryList(keyword);
+        return new BaseResponse<>(observatoryService.getObservatoryList(keyword));
     }
 }
