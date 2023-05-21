@@ -28,7 +28,7 @@ public class ObservatoryController {
         return new BaseResponse<>(observatoryService.getObservatoryListToMap(keyword));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public BaseResponse<List<ObservatoryListResponseDto>> getObservatoryList(
             @RequestParam(value = "address", defaultValue = "") String keyword
     ) {
