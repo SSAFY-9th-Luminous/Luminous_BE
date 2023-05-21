@@ -1,5 +1,7 @@
 package com.ssafy.luminous.util.jwt;
 
+import com.ssafy.luminous.config.BaseException;
+import com.ssafy.luminous.config.BaseResponseStatus;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -55,12 +57,17 @@ public class JwtService {
     }
 
     // 토큰에서 id값 가져오기
-    public Long getIdFromToken(HttpServletRequest request){
+    public Long getIdFromToken(HttpServletRequest request) throws BaseException {
         String accessToken = resolveToken(request);
 
-        Integer id = (Integer)Jwts.parser().setSigningKey(SALT.getBytes()).parseClaimsJws(accessToken).getBody().get("id");
+        try {
+            Integer id = (Integer)Jwts.parser().setSigningKey(SALT.getBytes()).parseClaimsJws(accessToken).getBody().get("id");
+            return new Long(id);
+        }
+        catch (Exception E){
+            throw new BaseException(BaseResponseStatus.INVALID_JWT);
+        }
 
-        return new Long(id);
     }
 
     private String resolveToken(HttpServletRequest request){
