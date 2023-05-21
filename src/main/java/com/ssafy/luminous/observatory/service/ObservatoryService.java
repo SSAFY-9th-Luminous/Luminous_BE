@@ -1,10 +1,8 @@
 package com.ssafy.luminous.observatory.service;
 
 import com.ssafy.luminous.observatory.domain.Observatory;
-import com.ssafy.luminous.observatory.dto.ObservatoryReqDto;
+import com.ssafy.luminous.observatory.dto.ObservatoryListResponseDto;
 import com.ssafy.luminous.observatory.repository.ObservatoryRepository;
-import com.ssafy.luminous.place.domain.Place;
-import com.ssafy.luminous.place.dto.PlaceListResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +15,28 @@ public class ObservatoryService {
 
     private final ObservatoryRepository observatoryRepository;
 
-    public List<Observatory> getObservatoryList(String keyword){
-        List<Observatory> observatorys;
+    public List<Observatory> getObservatoryListToMap(String keyword){
+        List<Observatory> observatories;
 
-        observatorys= observatoryRepository.findByAddressStartsWith(keyword);
+        observatories= observatoryRepository.findByAddressStartsWith(keyword);
 
+        return observatories;
+    }
 
-        return observatorys;
+    public List<ObservatoryListResponseDto> getObservatoryList(String keyword) {
+        List<Observatory> observatories = observatoryRepository.findByAddressStartsWith(keyword);
+        List<ObservatoryListResponseDto> observatoryListResponseDtos = new ArrayList<>();
+        for (Observatory obs : observatories) {
+            ObservatoryListResponseDto newObs = ObservatoryListResponseDto.builder()
+                    .id(obs.getId())
+                    .siName(obs.getAddress().substring(0, 2))
+                    .observatoryName(obs.getObservatoryName())
+                    .address(obs.getAddress())
+                    .build();
+
+            observatoryListResponseDtos.add(newObs);
+        }
+
+        return observatoryListResponseDtos;
     }
 }
