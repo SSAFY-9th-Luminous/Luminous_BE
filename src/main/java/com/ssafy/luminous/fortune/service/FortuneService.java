@@ -2,16 +2,15 @@ package com.ssafy.luminous.fortune.service;
 
 import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.constellation.domain.Constellation12;
-import com.ssafy.luminous.constellation.service.ConstellationService;
+import com.ssafy.luminous.constellation.repository.Constellation12Repository;
+import com.ssafy.luminous.constellation.service.Constellation12Service;
 import com.ssafy.luminous.fortune.domain.Fortune;
-import com.ssafy.luminous.fortune.dto.FortuneReqDto;
 import com.ssafy.luminous.fortune.dto.FortuneResDto;
 import com.ssafy.luminous.fortune.dto.TodayFortuneResDto;
 import com.ssafy.luminous.fortune.repository.FortuneRepository;
 import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.service.MemberService;
 import com.ssafy.luminous.util.gpt.ChatGPTService;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +26,8 @@ import static com.ssafy.luminous.config.BaseResponseStatus.*;
 public class FortuneService {
 
     private final FortuneRepository fortuneRepository;
-
-    private final ConstellationService constellationService;
+    private final Constellation12Repository constellation12Repository;
+    private final Constellation12Service constellation12Service;
     private final MemberService memberService;
     private final ChatGPTService chatGPTService;
 
@@ -67,7 +66,7 @@ public class FortuneService {
                 return;
             }
 
-            List<Constellation12> constellation12List = constellationService.getConstellationList();
+            List<Constellation12> constellation12List = constellation12Repository.findAll();
             for (Constellation12 constellation12 : constellation12List) {
                 String name = constellation12.getConstellationDetail().getContentsName();
 //            String prompt = name + "의 오늘의 운세는 어떤지 긍정적인 것과 부정적인 것에 대해서 작성해주고, 오늘의 추천 아이템 정보도 알려줘";

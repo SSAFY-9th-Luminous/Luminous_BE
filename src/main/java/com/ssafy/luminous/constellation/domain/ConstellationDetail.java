@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +23,7 @@ public class ConstellationDetail {
     private String contentsName;
 
     @Column(nullable = false)
-    private String ScientificName;
+    private String scientificName;
 
     @Column(nullable = false)
     private String engName;
