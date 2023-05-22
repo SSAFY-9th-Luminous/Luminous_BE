@@ -17,6 +17,13 @@ public class PlaceListResDto {
     private String placeDescription;
 
     private Date createdDate;
+    //여기부터
+    private Double latitude;
+
+    private Double longitude;
+
+    private String address;
+    //여기까지 추가했음 23-05-22
     private Double rate;
 
     private Integer hit;

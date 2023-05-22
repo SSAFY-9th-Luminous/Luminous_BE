@@ -49,6 +49,11 @@ public class PlaceService {
                         .id(place.getId())
                         .placeName(place.getPlaceName())
                         .placeDescription(place.getPlaceDescription())
+                        //여기부터
+                        .latitude(place.getLatitude())
+                        .longitude(place.getLongitude())
+                        .address(place.getAddress())
+                        //여기까지 23-05-22 추가하였음
                         .hit(place.getHit())
                         .createdDate(place.getCreatedDate())
                         .rate(place.getRate())
