@@ -23,7 +23,7 @@ public class ConstellationDetail {
     private String contentsName;
 
     @Column(nullable = false)
-    private String ScientificName;
+    private String scientificName;
 
     @Column(nullable = false)
     private String engName;
