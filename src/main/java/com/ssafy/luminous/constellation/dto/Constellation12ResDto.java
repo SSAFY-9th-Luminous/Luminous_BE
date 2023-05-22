@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Constellation12ReqDto {
+public class Constellation12ResDto {
     private Long id;
     private Date startDate;
     private Date endDate;
