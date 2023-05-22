@@ -1,10 +1,11 @@
 package com.ssafy.luminous.member.service;
 
-import com.ssafy.luminous.config.BaseResponse;
+import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.config.BaseResponseStatus;
 import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
 import com.ssafy.luminous.member.dto.RegisterRequestDto;
+import com.ssafy.luminous.member.dto.MemberUpdateRequestDto;
 import com.ssafy.luminous.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,18 @@ public class MemberService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
+        return member.get();
+    }
+
+    // 회원 정보 수정
+    public Member updateMember(MemberUpdateRequestDto memberUpdateRequestDto) throws BaseException {
+        Optional<Member> member = memberRepository.findById(memberUpdateRequestDto.getId());
+
+        if (member.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.NOT_MATCHED_ID);
+        }
+
+        member.get().update(memberUpdateRequestDto);
         return member.get();
     }
 

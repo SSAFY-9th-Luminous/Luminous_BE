@@ -1,8 +1,7 @@
 package com.ssafy.luminous.member.domain;
 
 import com.ssafy.luminous.constellation.domain.Constellation12;
-import com.ssafy.luminous.member.dto.RegisterRequestDto;
-import com.sun.istack.NotNull;
+import com.ssafy.luminous.member.dto.MemberUpdateRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,5 +36,13 @@ public class Member {
 
     @OneToOne
     private Constellation12 constellation12;
+
+    public Member update(MemberUpdateRequestDto memberUpdateRequestDto) {
+        this.memberName = memberUpdateRequestDto.getMemberName();
+        this.memberPassword = memberUpdateRequestDto.getMemberPassword();
+        this.birth = memberUpdateRequestDto.getBirth();
+
+        return this;
+    }
 
 }

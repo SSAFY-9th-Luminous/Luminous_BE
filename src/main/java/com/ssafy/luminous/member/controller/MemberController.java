@@ -1,11 +1,13 @@
 package com.ssafy.luminous.member.controller;
 
+import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.config.BaseResponseStatus;
 import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
 import com.ssafy.luminous.member.dto.LoginResponseDto;
 import com.ssafy.luminous.member.dto.RegisterRequestDto;
+import com.ssafy.luminous.member.dto.MemberUpdateRequestDto;
 import com.ssafy.luminous.member.service.MemberService;
 import com.ssafy.luminous.util.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +51,18 @@ public class MemberController {
 
         jwtService.setHeaderAccessToken(response, accessToken);
         return new BaseResponse<>(loginResponseDto);
+    }
+
+    @PutMapping("")
+    public BaseResponse<MemberUpdateRequestDto> update(@RequestBody MemberUpdateRequestDto memberUpdateRequestDto){
+        try {
+            memberService.updateMember(memberUpdateRequestDto);
+        } catch (BaseException e) {
+            System.out.println(e.getMessage());
+            return new BaseResponse<>(BaseResponseStatus.NOT_MATCHED_ID);
+        }
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
     // 회원탈퇴
