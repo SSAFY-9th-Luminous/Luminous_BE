@@ -9,6 +9,7 @@ import com.ssafy.luminous.member.dto.MemberUpdateRequestDto;
 import com.ssafy.luminous.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -54,6 +55,7 @@ public class MemberService {
     }
 
     // 회원 정보 수정
+    @Transactional
     public Member updateMember(MemberUpdateRequestDto memberUpdateRequestDto) throws BaseException {
         Optional<Member> member = memberRepository.findById(memberUpdateRequestDto.getId());
 
