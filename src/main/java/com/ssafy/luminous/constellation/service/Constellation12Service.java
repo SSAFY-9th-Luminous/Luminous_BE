@@ -2,9 +2,7 @@ package com.ssafy.luminous.constellation.service;
 
 import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.constellation.domain.Constellation12;
-import com.ssafy.luminous.constellation.domain.ConstellationDetail;
 import com.ssafy.luminous.constellation.repository.Constellation12Repository;
-import com.ssafy.luminous.constellation.repository.ConstellationDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +12,16 @@ import static com.ssafy.luminous.config.BaseResponseStatus.DATABASE_ERROR;
 
 @Service
 @RequiredArgsConstructor
-public class ConstellationService {
-    private final ConstellationDetailRepository constellationDetailRepository;
+public class Constellation12Service {
 
-    public List<ConstellationDetail> getConstellationList() throws BaseException {
+    private final Constellation12Repository constellation12Repository;
+
+    public List<Constellation12> getConstellation12List() throws BaseException {
         try {
-            return constellationDetailRepository.findAll();
+            return constellation12Repository.findAll();
         }
         catch (Exception e){
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
 }
