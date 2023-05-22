@@ -41,6 +41,13 @@ public class Observatory {
     @Column(columnDefinition = "double default 0")
     private Double rate;
 
+    @Column(nullable = false)
+    private Double longitude;
+
+    @Column(nullable = false)
+    private Double latitude;
+
+
 
 
 
