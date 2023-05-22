@@ -1,14 +1,13 @@
 package com.ssafy.luminous.observatory.controller;
 
+import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.observatory.domain.Observatory;
 import com.ssafy.luminous.observatory.dto.ObservatoryListResponseDto;
 import com.ssafy.luminous.observatory.service.ObservatoryService;
+import com.ssafy.luminous.place.domain.Place;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +33,15 @@ public class ObservatoryController {
     ) {
 
         return new BaseResponse<>(observatoryService.getObservatoryList(keyword));
+    }
+
+    @GetMapping("/{id}")
+    public BaseResponse<Observatory> getPlace(@PathVariable Long id) {
+        try {
+            return new BaseResponse<>(observatoryService.getObservatory(id));
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+
     }
 }

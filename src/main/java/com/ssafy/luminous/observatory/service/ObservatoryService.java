@@ -1,13 +1,19 @@
 package com.ssafy.luminous.observatory.service;
 
+import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.observatory.domain.Observatory;
 import com.ssafy.luminous.observatory.dto.ObservatoryListResponseDto;
 import com.ssafy.luminous.observatory.repository.ObservatoryRepository;
+import com.ssafy.luminous.place.domain.Place;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static com.ssafy.luminous.config.BaseResponseStatus.NOT_OWNER;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +44,14 @@ public class ObservatoryService {
         }
 
         return observatoryListResponseDtos;
+    }
+
+    @Transactional(readOnly = true)
+    public Observatory getObservatory(Long id) throws BaseException {
+        Optional<Observatory> observatory = observatoryRepository.findById(id);
+        if (observatory.isEmpty()) {
+            throw new BaseException(NOT_OWNER);
+        }
+        return observatory.get();
     }
 }
