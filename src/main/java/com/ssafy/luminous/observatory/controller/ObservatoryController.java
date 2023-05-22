@@ -36,7 +36,7 @@ public class ObservatoryController {
     }
 
     @GetMapping("/{id}")
-    public BaseResponse<Observatory> getPlace(@PathVariable Long id) {
+    public BaseResponse<Observatory> getObservatory(@PathVariable Long id) {
         try {
             return new BaseResponse<>(observatoryService.getObservatory(id));
         } catch (BaseException exception) {
