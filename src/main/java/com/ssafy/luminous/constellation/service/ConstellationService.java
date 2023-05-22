@@ -9,6 +9,7 @@ import com.ssafy.luminous.constellation.repository.Constellation12Repository;
 import com.ssafy.luminous.constellation.repository.ConstellationDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ import static com.ssafy.luminous.config.BaseResponseStatus.DATABASE_ERROR;
 public class ConstellationService {
     private final ConstellationDetailRepository constellationDetailRepository;
 
+    @Transactional(readOnly = true)
     public List<ConstellationDetailResDto> getConstellationList() throws BaseException {
         try {
             List<ConstellationDetailResDto> constellationDetailResDtoList = new LinkedList<>();

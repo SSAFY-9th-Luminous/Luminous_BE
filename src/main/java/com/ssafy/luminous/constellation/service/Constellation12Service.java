@@ -6,6 +6,7 @@ import com.ssafy.luminous.constellation.dto.Constellation12ResDto;
 import com.ssafy.luminous.constellation.repository.Constellation12Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Constellation12Service {
 
     private final Constellation12Repository constellation12Repository;
 
+    @Transactional(readOnly = true)
     public List<Constellation12ResDto> getConstellation12List() throws BaseException {
         try {
             List<Constellation12ResDto> constellation12ResDtoList = new LinkedList<>();
