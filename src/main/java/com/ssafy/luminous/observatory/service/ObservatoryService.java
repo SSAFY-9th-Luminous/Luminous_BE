@@ -35,7 +35,7 @@ public class ObservatoryService {
         for (Observatory obs : observatories) {
             ObservatoryListResponseDto newObs = ObservatoryListResponseDto.builder()
                     .id(obs.getId())
-                    .siDoName(obs.getAddress().substring(0, 2))
+                    .siDoName(obs.getAddress().split(" ")[0])
                     .observatoryName(obs.getObservatoryName())
                     .address(obs.getAddress())
                     .build();
