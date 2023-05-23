@@ -33,8 +33,6 @@ public class Member {
     @Column(nullable = false)
     private Date birth;
 
-    private Long constellationId;
-
     @OneToOne
     private Constellation12 constellation12;
 

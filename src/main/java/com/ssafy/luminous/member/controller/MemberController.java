@@ -4,10 +4,7 @@ import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.config.BaseResponseStatus;
 import com.ssafy.luminous.member.domain.Member;
-import com.ssafy.luminous.member.dto.LoginRequestDto;
-import com.ssafy.luminous.member.dto.LoginResponseDto;
-import com.ssafy.luminous.member.dto.RegisterRequestDto;
-import com.ssafy.luminous.member.dto.MemberUpdateRequestDto;
+import com.ssafy.luminous.member.dto.*;
 import com.ssafy.luminous.member.service.MemberService;
 import com.ssafy.luminous.util.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -92,16 +89,13 @@ public class MemberController {
 
     // 아이디로 사용자 검색
     @GetMapping("/detail/{id}")
-    public BaseResponse<Member> findMemberByMemberId(@PathVariable("id") Long id) {
-        Member member;
+    public BaseResponse<MemberDetailReqDto> findMemberByMemberId(@PathVariable("id") Long id) {
         try {
-            member = memberService.findMemberById(id);
-        } catch (IllegalArgumentException e) {
-            System.out.print(e.getMessage());
-            return new BaseResponse<>(BaseResponseStatus.NOT_MATCHED_ID);
+            MemberDetailReqDto memberDetailReqDto = memberService.getMemberDetail(id);
+            return new BaseResponse<>(memberDetailReqDto);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
         }
-
-        return new BaseResponse<>(member);
     }
 
 

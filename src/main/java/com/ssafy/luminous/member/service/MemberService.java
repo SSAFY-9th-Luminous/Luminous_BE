@@ -6,6 +6,7 @@ import com.ssafy.luminous.constellation.domain.Constellation12;
 import com.ssafy.luminous.constellation.repository.Constellation12Repository;
 import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
+import com.ssafy.luminous.member.dto.MemberDetailReqDto;
 import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.ssafy.luminous.member.dto.MemberUpdateRequestDto;
 import com.ssafy.luminous.member.repository.MemberRepository;
@@ -16,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.util.Optional;
 
-import static com.ssafy.luminous.config.BaseResponseStatus.DUPLICATED_ID;
-import static com.ssafy.luminous.config.BaseResponseStatus.FAILED_TO_REGISTER;
+import static com.ssafy.luminous.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -38,22 +38,19 @@ public class MemberService {
 
         // 2000년으로 바운딩
         Date birth = new Date(100, registerRequestDto.getBirth().getMonth(), registerRequestDto.getBirth().getDate());
-        Optional<Constellation12> constellation12 = constellation12Repository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(birth,birth);
-        if(constellation12.isEmpty())
+        Optional<Constellation12> constellation12 = constellation12Repository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(birth, birth);
+        if (constellation12.isEmpty())
             constellation12 = constellation12Repository.findById(10L);
         newMember.setConstellation12(constellation12.get());
         try {
             if (newMember != null) {
                 memberRepository.save(newMember);
-            }
-            else {
+            } else {
                 throw new BaseException(FAILED_TO_REGISTER);
             }
-        }
-        catch (BaseException e){
+        } catch (BaseException e) {
             throw new BaseException(e.getStatus());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new BaseException(DUPLICATED_ID);
         }
     }
@@ -67,7 +64,7 @@ public class MemberService {
             throw new IllegalArgumentException("아이디가 일치하지 않습니다");
         }
         // 비밀번호 비교
-        if (!validatePassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword())){
+        if (!validatePassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
@@ -114,12 +111,23 @@ public class MemberService {
     }
 
     // 아이디로 사용자 검색
-    public Member findMemberById(Long id) throws IllegalArgumentException{
-        Optional<Member> member = memberRepository.findById(id);
+    public MemberDetailReqDto getMemberDetail(Long id) throws BaseException {
+        try {
+            Member member = memberRepository.findById(id).get();
 
-        if(member.isPresent()) {
-            return member.get();
+            MemberDetailReqDto detailReqDto = MemberDetailReqDto
+                    .builder()
+                    .id(member.getId())
+                    .memberId(member.getMemberId())
+                    .memberName(member.getMemberName())
+                    .birth(member.getBirth())
+                    .constellation12Id(member.getConstellation12().getId())
+                    .constellation12Name(member.getConstellation12().getConstellationDetail().getContentsName())
+                    .build();
+            return detailReqDto;
+        } catch (Exception e) {
+            throw new BaseException(NOT_MATCHED_ID);
         }
-        throw new IllegalArgumentException("존재하지 않은 사용자입니다.");
+
     }
 }

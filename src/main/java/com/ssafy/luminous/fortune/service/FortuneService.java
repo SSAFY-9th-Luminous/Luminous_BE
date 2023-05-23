@@ -9,6 +9,7 @@ import com.ssafy.luminous.fortune.dto.FortuneResDto;
 import com.ssafy.luminous.fortune.dto.TodayFortuneResDto;
 import com.ssafy.luminous.fortune.repository.FortuneRepository;
 import com.ssafy.luminous.member.domain.Member;
+import com.ssafy.luminous.member.repository.MemberRepository;
 import com.ssafy.luminous.member.service.MemberService;
 import com.ssafy.luminous.util.gpt.ChatGPTService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.ssafy.luminous.config.BaseResponseStatus.*;
 
@@ -28,7 +30,7 @@ public class FortuneService {
     private final FortuneRepository fortuneRepository;
     private final Constellation12Repository constellation12Repository;
     private final Constellation12Service constellation12Service;
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final ChatGPTService chatGPTService;
 
 
@@ -94,8 +96,8 @@ public class FortuneService {
     @Transactional(readOnly = true)
     public TodayFortuneResDto getTodayFortune(Long memberId) throws BaseException {
         try {
-            Member member = memberService.findMemberById(memberId);
-            Fortune fortune = fortuneRepository.findByConstellation12_id(member.getConstellation12().getId());
+            Optional<Member> member = Optional.ofNullable(memberRepository.findById(memberId).orElseThrow(() -> new BaseException(NOT_MATCHED_ID)));
+            Fortune fortune = fortuneRepository.findByConstellation12_id(member.get().getConstellation12().getId());
             TodayFortuneResDto todayFortuneResDto = TodayFortuneResDto.builder()
                     .name(fortune.getConstellation12().getConstellationDetail().getContentsName())
                     .description(fortune.getDescription())
