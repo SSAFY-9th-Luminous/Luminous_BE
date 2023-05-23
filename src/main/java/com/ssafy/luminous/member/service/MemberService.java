@@ -2,6 +2,8 @@ package com.ssafy.luminous.member.service;
 
 import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.config.BaseResponseStatus;
+import com.ssafy.luminous.constellation.domain.Constellation12;
+import com.ssafy.luminous.constellation.repository.Constellation12Repository;
 import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
 import com.ssafy.luminous.member.dto.RegisterRequestDto;
@@ -11,31 +13,48 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.Optional;
+
+import static com.ssafy.luminous.config.BaseResponseStatus.DUPLICATED_ID;
+import static com.ssafy.luminous.config.BaseResponseStatus.FAILED_TO_REGISTER;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final Constellation12Repository constellation12Repository;
 
     // 회원가입
-    public boolean register(RegisterRequestDto registerRequestDto) {
+    @Transactional
+    public void register(RegisterRequestDto registerRequestDto) throws BaseException {
         Member newMember = Member
                 .builder()
                 .memberId(registerRequestDto.getMemberId())
                 .memberPassword(registerRequestDto.getMemberPassword())
                 .memberName(registerRequestDto.getMemberName())
                 .birth(registerRequestDto.getBirth()).build();
-        
-        // constellationId 추가해주기
 
-        if (newMember != null) {
-            memberRepository.save(newMember);
-            return true;
+        // 2000년으로 바운딩
+        Date birth = new Date(registerRequestDto.getBirth().getTime() - (long) (new Date(System.currentTimeMillis()).getYear() - 100) *1000*60*60*24*365);
+        System.out.println(birth);
+        Constellation12 constellation12 = constellation12Repository.findByStartDateGreaterThanEqualAndEndDateLessThanEqual(birth,birth);
+        newMember.setConstellation12(constellation12);
+        try {
+            if (newMember != null) {
+                memberRepository.save(newMember);
+            }
+            else {
+                throw new BaseException(FAILED_TO_REGISTER);
+            }
         }
-
-        return false;
+        catch (BaseException e){
+            throw new BaseException(e.getStatus());
+        }
+        catch (Exception e){
+            throw new BaseException(DUPLICATED_ID);
+        }
     }
 
     // 로그인

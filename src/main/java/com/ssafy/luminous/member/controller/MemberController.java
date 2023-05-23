@@ -26,12 +26,15 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/register")
-    public BaseResponse<Object> register(@RequestBody RegisterRequestDto registerRequestDto){
-        if (memberService.register(registerRequestDto)) {
+    public BaseResponse<Object> register(@RequestBody RegisterRequestDto registerRequestDto) {
+        try {
+            memberService.register(registerRequestDto);
             return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
         }
 
-        return new BaseResponse<>(BaseResponseStatus.FAILED_TO_REGISTER);
     }
 
     // 로그인
@@ -54,7 +57,7 @@ public class MemberController {
     }
 
     @PutMapping("")
-    public BaseResponse<MemberUpdateRequestDto> update(@RequestBody MemberUpdateRequestDto memberUpdateRequestDto){
+    public BaseResponse<MemberUpdateRequestDto> update(@RequestBody MemberUpdateRequestDto memberUpdateRequestDto) {
         try {
             memberService.updateMember(memberUpdateRequestDto);
         } catch (BaseException e) {
