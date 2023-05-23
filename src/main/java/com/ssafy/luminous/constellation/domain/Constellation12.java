@@ -25,6 +25,8 @@ public class Constellation12 {
     @Column(nullable = false)
     private Date endDate;
 
+    private String img;
+
     @OneToOne
     @JoinColumn(nullable = false)
     private ConstellationDetail constellationDetail;
