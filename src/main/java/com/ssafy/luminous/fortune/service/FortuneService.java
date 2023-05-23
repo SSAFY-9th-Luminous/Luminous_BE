@@ -50,6 +50,7 @@ public class FortuneService {
                         .contentsId(fortune.getConstellation12().getId())
                         .contentsName(fortune.getConstellation12().getConstellationDetail().getContentsName())
                         .description(fortune.getDescription())
+                        .img(fortune.getConstellation12().getImg())
                         .build())
                 ;
 
