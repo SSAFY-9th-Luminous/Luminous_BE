@@ -3,9 +3,11 @@ package com.ssafy.luminous.camping.controller;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.ssafy.luminous.camping.domain.Camping;
 import com.ssafy.luminous.camping.domain.CampingImage;
+import com.ssafy.luminous.camping.dto.CampingDetailResponseDto;
 import com.ssafy.luminous.camping.dto.CampingListResponseDto;
 import com.ssafy.luminous.camping.service.CampingService;
 import com.ssafy.luminous.camping.util.api.CampingUtil;
+import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.config.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +59,7 @@ public class CampingController {
         return new BaseResponse<>(campingService.getCampingList(region));
     }
 
+    // 지도로 캠핑장 리스트 반환
     @GetMapping("/map")
     public BaseResponse<List<Camping>> getCampingListToMap(
             @RequestParam(value = "region", defaultValue = "") String region
@@ -64,12 +67,17 @@ public class CampingController {
         return new BaseResponse<>(campingService.findByDoNameContaining(region));
     }
 
-//    @GetMapping("/location")
-//    public BaseResponse<List<Camping>> getCampingByLocation(@RequestParam("pageNumber") int pageNumber, @RequestParam("")) {
-//
-//
-//    }
+    @GetMapping("/{id}")
+    public BaseResponse<CampingDetailResponseDto> getCamping(@PathVariable Long id) {
+        try {
+            return new BaseResponse<>(campingService.getCamping(id));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        } catch (Exception e) {
+            return new BaseResponse<>(BaseResponseStatus.API_ERROR);
+        }
 
+    }
 
 
 

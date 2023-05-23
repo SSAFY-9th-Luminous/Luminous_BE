@@ -21,6 +21,7 @@ public enum BaseResponseStatus {
     EMPTY_JWT(false, 2001, "JWT를 입력해주세요."),
     INVALID_JWT(false, 2002, "유효하지 않은 JWT입니다."),
     INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
+    NOT_MATCHED_CAMPING(false, 2100, "일치하는 캠핑장이 없습니다."),
 
     // users
     NOT_MATCHED_ID(false, 2050, "일치하는 아이디가 없습니다."),
