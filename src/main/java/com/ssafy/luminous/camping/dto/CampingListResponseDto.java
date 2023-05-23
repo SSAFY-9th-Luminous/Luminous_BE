@@ -9,7 +9,7 @@ public class CampingListResponseDto {
 
     private String doName;
 
-    private String siGunGuName;
+    private String address;
 
     private String campingId;
 
@@ -17,6 +17,6 @@ public class CampingListResponseDto {
 
     private String lineIntro;
 
-    private Integer hit;
+    private String imageUrl;
 
 }
