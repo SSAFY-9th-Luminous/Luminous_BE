@@ -40,7 +40,6 @@ public class Member {
         this.memberName = memberUpdateRequestDto.getMemberName();
         this.memberPassword = memberUpdateRequestDto.getMemberPassword();
         this.birth = memberUpdateRequestDto.getBirth();
-
         return this;
     }
 

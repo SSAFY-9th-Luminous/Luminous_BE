@@ -36,12 +36,9 @@ public class MemberService {
                 .memberName(registerRequestDto.getMemberName())
                 .birth(registerRequestDto.getBirth()).build();
 
-        // 2000년으로 바운딩
-        Date birth = new Date(100, registerRequestDto.getBirth().getMonth(), registerRequestDto.getBirth().getDate());
-        Optional<Constellation12> constellation12 = constellation12Repository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(birth, birth);
-        if (constellation12.isEmpty())
-            constellation12 = constellation12Repository.findById(10L);
-        newMember.setConstellation12(constellation12.get());
+        Constellation12 constellation12 = mappingConstellation12(registerRequestDto.getBirth());
+        newMember.setConstellation12(constellation12);
+
         try {
             if (newMember != null) {
                 memberRepository.save(newMember);
@@ -55,6 +52,16 @@ public class MemberService {
         }
     }
 
+    private Constellation12 mappingConstellation12(Date date){
+        // 2000년으로 바운딩
+        Date boundedDate = new Date(100, date.getMonth(), date.getDate());
+        Optional<Constellation12> constellation12 = constellation12Repository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(boundedDate, boundedDate);
+        if (constellation12.isEmpty())
+            constellation12 = constellation12Repository.findById(10L);
+        
+        return constellation12.get();
+
+    }
     // 로그인
     public Member login(LoginRequestDto loginRequestDto) throws IllegalArgumentException {
         Optional<Member> member = memberRepository.findByMemberId(loginRequestDto.getMemberId());
@@ -80,7 +87,9 @@ public class MemberService {
             throw new BaseException(BaseResponseStatus.NOT_MATCHED_ID);
         }
 
+        Constellation12 constellation12 = mappingConstellation12(memberUpdateRequestDto.getBirth());
         member.get().update(memberUpdateRequestDto);
+        member.get().setConstellation12(constellation12);
         return member.get();
     }
 
