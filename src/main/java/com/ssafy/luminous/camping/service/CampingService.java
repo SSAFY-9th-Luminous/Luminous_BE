@@ -79,11 +79,11 @@ public class CampingService {
         for (Camping camping : campings) {
             campingListResponseDtoList.add(CampingListResponseDto.builder()
                     .doName(camping.getDoName())
-                    .siGunGuName(camping.getSiGunGuName())
+                    .address(camping.getAddress())
                     .campingId(camping.getCampingId())
                     .campingName(camping.getCampingName())
                     .lineIntro(camping.getLineIntro())
-                    .hit(0)
+                    .imageUrl(camping.getImageUrl())
                     .build());
         }
 
