@@ -11,5 +11,6 @@ public class FortuneResDto {
     private Long contentsId;
     private String contentsName;
     private String description;
+    private String img;
 
 }

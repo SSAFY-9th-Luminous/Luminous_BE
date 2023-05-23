@@ -39,7 +39,7 @@ public class Constellation12Service {
                                 .size(constellation12.getConstellationDetail().getSize())
                                 .location(constellation12.getConstellationDetail().getLocation())
                                 .contentsDescription(constellation12.getConstellationDetail().getContentsDescription())
-                                .img(constellation12.getConstellationDetail().getImg())
+                                .img(constellation12.getImg())
                         .build());
             }
             return constellation12ResDtoList;
