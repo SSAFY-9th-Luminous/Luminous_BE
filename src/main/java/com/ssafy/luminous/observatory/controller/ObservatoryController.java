@@ -5,7 +5,6 @@ import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.observatory.domain.Observatory;
 import com.ssafy.luminous.observatory.dto.ObservatoryListResponseDto;
 import com.ssafy.luminous.observatory.service.ObservatoryService;
-import com.ssafy.luminous.place.domain.Place;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
