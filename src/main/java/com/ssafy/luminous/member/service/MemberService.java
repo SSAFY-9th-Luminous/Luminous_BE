@@ -7,8 +7,8 @@ import com.ssafy.luminous.constellation.repository.Constellation12Repository;
 import com.ssafy.luminous.member.domain.Member;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
 import com.ssafy.luminous.member.dto.MemberDetailReqDto;
-import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.ssafy.luminous.member.dto.MemberUpdateRequestDto;
+import com.ssafy.luminous.member.dto.RegisterRequestDto;
 import com.ssafy.luminous.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,16 +52,17 @@ public class MemberService {
         }
     }
 
-    private Constellation12 mappingConstellation12(Date date){
+    private Constellation12 mappingConstellation12(Date date) {
         // 2000년으로 바운딩
         Date boundedDate = new Date(100, date.getMonth(), date.getDate());
         Optional<Constellation12> constellation12 = constellation12Repository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(boundedDate, boundedDate);
         if (constellation12.isEmpty())
             constellation12 = constellation12Repository.findById(10L);
-        
+
         return constellation12.get();
 
     }
+
     // 로그인
     public Member login(LoginRequestDto loginRequestDto) throws IllegalArgumentException {
         Optional<Member> member = memberRepository.findByMemberId(loginRequestDto.getMemberId());
@@ -94,15 +95,14 @@ public class MemberService {
     }
 
     // 회원탈퇴
-    public boolean deleteMember(Long id) {
-        try {
-            memberRepository.deleteById(id);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
+    @Transactional
+    public void deleteMember(Long id) throws BaseException {
+        Optional<Member> member = memberRepository.findById(id);
+        if (member.isEmpty()) {
+            throw new BaseException(NOT_MATCHED_ID);
         }
+        member.get().delete();
 
-        return true;
     }
 
     // 아이디 중복 체크
