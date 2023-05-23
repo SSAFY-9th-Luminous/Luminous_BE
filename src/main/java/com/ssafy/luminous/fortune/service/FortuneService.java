@@ -66,7 +66,7 @@ public class FortuneService {
                 return;
             }
 
-            constellation12Repository.deleteAll();
+            fortuneRepository.deleteAll();
             List<Constellation12> constellation12List = constellation12Repository.findAll();
             for (Constellation12 constellation12 : constellation12List) {
                 String name = constellation12.getConstellationDetail().getContentsName();
