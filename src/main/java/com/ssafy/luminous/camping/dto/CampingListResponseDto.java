@@ -7,6 +7,8 @@ import lombok.Data;
 @Builder
 public class CampingListResponseDto {
 
+    private Long id;
+
     private String doName;
 
     private String address;

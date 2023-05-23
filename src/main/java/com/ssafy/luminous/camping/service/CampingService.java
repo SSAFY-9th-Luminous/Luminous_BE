@@ -82,6 +82,7 @@ public class CampingService {
 
         for (Camping camping : campings) {
             campingListResponseDtoList.add(CampingListResponseDto.builder()
+                    .id(camping.getId())
                     .doName(camping.getDoName())
                     .address(camping.getAddress())
                     .campingId(camping.getCampingId())
