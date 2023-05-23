@@ -37,10 +37,11 @@ public class MemberService {
                 .birth(registerRequestDto.getBirth()).build();
 
         // 2000년으로 바운딩
-        Date birth = new Date(registerRequestDto.getBirth().getTime() - (long) (new Date(System.currentTimeMillis()).getYear() - 100) *1000*60*60*24*365);
-        System.out.println(birth);
-        Constellation12 constellation12 = constellation12Repository.findByStartDateGreaterThanEqualAndEndDateLessThanEqual(birth,birth);
-        newMember.setConstellation12(constellation12);
+        Date birth = new Date(100, registerRequestDto.getBirth().getMonth(), registerRequestDto.getBirth().getDate());
+        Optional<Constellation12> constellation12 = constellation12Repository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(birth,birth);
+        if(constellation12.isEmpty())
+            constellation12 = constellation12Repository.findById(10L);
+        newMember.setConstellation12(constellation12.get());
         try {
             if (newMember != null) {
                 memberRepository.save(newMember);
