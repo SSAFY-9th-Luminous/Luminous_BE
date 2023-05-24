@@ -43,4 +43,12 @@ public class ObservatoryController {
         }
 
     }
+
+    @GetMapping("/location")
+    public BaseResponse<List<ObservatoryListResponseDto>> getObservatoryListByLocation(
+//            @RequestParam(value = "latitude") double latitude,
+//            @RequestParam(value = "longitude") double longitude
+    ) {
+        return new BaseResponse<>(observatoryService.getObservatoryListByLocation());
+    }
 }

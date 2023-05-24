@@ -54,4 +54,21 @@ public class ObservatoryService {
         }
         return observatory.get();
     }
+
+    public List<ObservatoryListResponseDto> getObservatoryListByLocation() {
+        List<Observatory> observatoryList = observatoryRepository.findByAddressStartsWith("서울");
+        List<ObservatoryListResponseDto> observatoryListResponseDtoList = new ArrayList<>();
+        for (Observatory obs : observatoryList) {
+            if (obs.getImageUrl() == null) continue;
+
+            observatoryListResponseDtoList.add(ObservatoryListResponseDto.builder()
+                    .id(obs.getId())
+                    .address(obs.getAddress())
+                    .observatoryName(obs.getObservatoryName())
+                    .imageUrl(obs.getImageUrl())
+                    .build());
+        }
+
+        return observatoryListResponseDtoList;
+    }
 }

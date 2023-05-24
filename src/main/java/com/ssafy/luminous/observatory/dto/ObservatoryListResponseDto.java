@@ -15,4 +15,6 @@ public class ObservatoryListResponseDto {
 
     private String address;
 
+    private String imageUrl;
+
 }
