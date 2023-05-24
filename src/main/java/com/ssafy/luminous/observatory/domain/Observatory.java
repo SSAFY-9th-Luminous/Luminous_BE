@@ -47,8 +47,8 @@ public class Observatory {
     @Column(nullable = false)
     private Double latitude;
 
-
-
+    @Column(nullable = false)
+    private String imageUrl;
 
 
 }

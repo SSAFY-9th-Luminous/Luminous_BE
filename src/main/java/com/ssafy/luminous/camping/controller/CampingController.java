@@ -104,13 +104,8 @@ public class CampingController {
     public BaseResponse<List<CampingListResponseDto>> getCampingListByLocation(
             @RequestParam(value = "latitude") double latitude,
             @RequestParam(value = "longitude") double longitude
-//            @RequestParam CampingListByLocationRequestDto campingListByLocationRequestDto
     ) {
         try {
-            System.out.println(latitude);
-            System.out.println(longitude);
-//            double latitude = campingListByLocationRequestDto.getLatitude();
-//            double longitude = campingListByLocationRequestDto.getLongitude();
             return new BaseResponse<>(campingService.getCampingListByLocation(latitude, longitude));
         } catch (Exception e) {
             return new BaseResponse<>(BaseResponseStatus.API_ERROR);
