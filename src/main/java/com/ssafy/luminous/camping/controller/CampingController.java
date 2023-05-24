@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import com.ssafy.luminous.camping.domain.Camping;
 import com.ssafy.luminous.camping.domain.CampingImage;
 import com.ssafy.luminous.camping.dto.CampingDetailResponseDto;
+import com.ssafy.luminous.camping.dto.CampingListByLocationRequestDto;
 import com.ssafy.luminous.camping.dto.CampingListResponseDto;
+import com.ssafy.luminous.camping.dto.CampingRateRequestDto;
 import com.ssafy.luminous.camping.service.CampingService;
 import com.ssafy.luminous.camping.util.api.CampingUtil;
 import com.ssafy.luminous.config.BaseException;
@@ -12,7 +14,10 @@ import com.ssafy.luminous.config.BaseResponse;
 import com.ssafy.luminous.config.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -80,7 +85,37 @@ public class CampingController {
 
     }
 
+    // 캠핑 평점 반영
+    @PostMapping("/rate")
+    public BaseResponse<Object> rateCamping(
+            @RequestBody CampingRateRequestDto campingRateRequestDto
+    ) {
 
+        try {
+            return new BaseResponse<>(campingService.rateCamping(campingRateRequestDto));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+
+    }
+
+    // 캠핑 리스트 반환 By 현재위치
+    @GetMapping("/location")
+    public BaseResponse<List<CampingListResponseDto>> getCampingListByLocation(
+            @RequestParam(value = "latitude") double latitude,
+            @RequestParam(value = "longitude") double longitude
+//            @RequestParam CampingListByLocationRequestDto campingListByLocationRequestDto
+    ) {
+        try {
+            System.out.println(latitude);
+            System.out.println(longitude);
+//            double latitude = campingListByLocationRequestDto.getLatitude();
+//            double longitude = campingListByLocationRequestDto.getLongitude();
+            return new BaseResponse<>(campingService.getCampingListByLocation(latitude, longitude));
+        } catch (Exception e) {
+            return new BaseResponse<>(BaseResponseStatus.API_ERROR);
+        }
+    }
 
 
 }

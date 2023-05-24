@@ -3,13 +3,16 @@ package com.ssafy.luminous.camping.service;
 import com.ssafy.luminous.camping.domain.Camping;
 import com.ssafy.luminous.camping.domain.CampingImage;
 import com.ssafy.luminous.camping.dto.CampingDetailResponseDto;
+import com.ssafy.luminous.camping.dto.CampingListByLocationRequestDto;
 import com.ssafy.luminous.camping.dto.CampingListResponseDto;
+import com.ssafy.luminous.camping.dto.CampingRateRequestDto;
 import com.ssafy.luminous.camping.repository.CampingRepository;
 import com.ssafy.luminous.camping.util.api.CampingUtil;
 import com.ssafy.luminous.config.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -75,6 +78,60 @@ public class CampingService {
         return CampingImageList;
     }
 
+    // 캠핑장 목록 반환 By 현재위치
+    public List<CampingListResponseDto> getCampingListByLocation(double latitude, double longitude) throws ParserConfigurationException, IOException, SAXException {
+        List<CampingListResponseDto> campingListResponseDtoList = new ArrayList<>();
+
+        int page = 1;
+
+        double mapX = longitude;
+        double mapY = latitude;
+
+        // 가져올 최대 데이터 개수
+        final int numOfRows = 15;
+        // 5km
+        final int radius = 20000;
+
+        String urlStr = "https://apis.data.go.kr/B551011/GoCamping/locationBasedList" +
+                "?serviceKey=" + serviceKey +
+                "&numOfRows=" + numOfRows +
+                "&pageNo=" + page +
+                "&MobileOS=ETC" +
+                "&MobileApp=Luminous" +
+                "&mapX=" + mapX +
+                "&mapY=" + mapY +
+                "&radius=" + radius;
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dbBuilder.parse(urlStr);
+
+        doc.getDocumentElement().normalize();
+        NodeList nList = doc.getElementsByTagName("item");
+
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node nNode = nList.item(i);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+
+                // 사진 있는 캠핑장만 가져오기
+                if (getTagValue("firstImageUrl", eElement) == null) continue;
+
+                campingListResponseDtoList.add(CampingListResponseDto.builder()
+                        .id(new Long(i + 1))
+                        .doName(getTagValue("doNm", eElement))
+                        .address(getTagValue("addr1", eElement))
+                        .campingId(getTagValue("contentId", eElement))
+                        .campingName(getTagValue("facltNm", eElement))
+                        .lineIntro(getTagValue("lineIntro", eElement))
+                        .imageUrl(getTagValue("firstImageUrl", eElement))
+                        .build());
+            }   // if end
+        }   // for end
+
+        return campingListResponseDtoList;
+    }
+
     // 캠핑 목록 반환(CampingListResponseDto)
     public List<CampingListResponseDto> getCampingList(String region)  {
         List<Camping> campings = campingRepository.findByDoNameContaining(region);
@@ -114,6 +171,29 @@ public class CampingService {
 
 
         return campingDetailResponseDto;
+    }
+
+    // 평점 추가
+    @Transactional
+    public Camping rateCamping(CampingRateRequestDto campingRateRequestDto) throws BaseException {
+        long id = campingRateRequestDto.getId();
+        int rate = campingRateRequestDto.getRate();
+
+        Optional<Camping> camping = campingRepository.findById(id);
+
+        if (camping.isEmpty()) {
+            throw new BaseException(NOT_MATCHED_CAMPING);
+        }
+
+        int campingCount = camping.get().getCount();
+        Double campingRate = camping.get().getRate();
+
+        campingRate = ((campingRate * campingCount) + rate) / ++campingCount;
+
+        camping.get().setCount(campingCount);
+        camping.get().setRate(campingRate);
+
+        return camping.get();
     }
 
 }
