@@ -27,6 +27,7 @@ public enum BaseResponseStatus {
     NOT_MATCHED_ID(false, 2050, "일치하는 아이디가 없습니다."),
     DUPLICATED_ID(false, 2051, "중복된 아이디입니다."),
     FAILED_TO_LOGIN(false,2052,"아이디 혹은 비밀번호가 일치하지 않습니다."),
+    DELETED_USER(false,2053,"삭제된 유저입니다."),
 
 
     // 2301 - 2600 준혁
