@@ -21,11 +21,13 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     List<Place> findByOrderByHit();
 
-    List<Place> findByPlaceNameContains(String keyword);
+    List<Place> findByPlaceNameContainsOrderByIdDesc(String keyword);
 
-    List<Place> findByPlaceDescriptionContains(String keyword);
+    List<Place> findByPlaceDescriptionContainsOrderByIdDesc(String keyword);
 
     List<Place> findByMember_MemberNameContains(String keyword);
+
+
 
     Optional<Place> findByIdAndMember_id(Long id, Long memberId);
 

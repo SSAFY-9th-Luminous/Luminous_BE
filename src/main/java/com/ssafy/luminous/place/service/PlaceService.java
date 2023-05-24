@@ -37,11 +37,11 @@ public class PlaceService {
             }
             // 설명
             else if ("desc".equals(category)) {
-                places = placeRepository.findByPlaceDescriptionContains(keyword);
+                places = placeRepository.findByPlaceDescriptionContainsOrderByIdDesc(keyword);
             }
             // 장소이름
             else {
-                places = placeRepository.findByPlaceNameContains(keyword);
+                places = placeRepository.findByPlaceNameContainsOrderByIdDesc(keyword);
             }
 
             for (Place place : places) {
