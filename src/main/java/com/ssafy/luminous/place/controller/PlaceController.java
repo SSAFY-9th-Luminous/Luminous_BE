@@ -2,24 +2,16 @@ package com.ssafy.luminous.place.controller;
 
 import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.config.BaseResponse;
-import com.ssafy.luminous.config.BaseResponseStatus;
 import com.ssafy.luminous.place.domain.Place;
-import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.service.PlaceService;
 import com.ssafy.luminous.util.jwt.JwtService;
-import com.ssafy.luminous.util.s3.S3Service;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import static com.ssafy.luminous.config.BaseResponseStatus.SUCCESS;
 

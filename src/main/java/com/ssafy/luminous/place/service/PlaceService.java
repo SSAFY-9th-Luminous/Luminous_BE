@@ -2,15 +2,14 @@ package com.ssafy.luminous.place.service;
 
 import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.place.domain.Place;
-import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
+import com.ssafy.luminous.place.dto.PlaceResDto;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.repository.PlaceRepository;
 import com.ssafy.luminous.util.s3.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +27,10 @@ public class PlaceService {
     private final S3Service s3Service;
 
     @Transactional(readOnly = true)
-    public List<PlaceListResDto> getPlaceList(String category, String keyword) throws BaseException {
+    public List<PlaceResDto> getPlaceList(String category, String keyword) throws BaseException {
         List<Place> places;
 
-        List<PlaceListResDto> newPlaces = new ArrayList<>();
+        List<PlaceResDto> newPlaces = new ArrayList<>();
 
         try {
             // 유저이름
@@ -48,18 +47,19 @@ public class PlaceService {
             }
 
             for (Place place : places) {
-                newPlaces.add(PlaceListResDto.builder()
+                newPlaces.add(PlaceResDto.builder()
                         .id(place.getId())
                         .placeName(place.getPlaceName())
                         .placeDescription(place.getPlaceDescription())
-                        //여기부터
                         .latitude(place.getLatitude())
                         .longitude(place.getLongitude())
                         .address(place.getAddress())
-                        //여기까지 23-05-22 추가하였음
                         .hit(place.getHit())
                         .createdDate(place.getCreatedDate())
+                        .lastModifiedDate(place.getLastModifiedDate())
+                        .visitedDate(place.getVisitedDate())
                         .rate(place.getRate())
+                        .img(place.getImg())
                         .member(place.getMember())
                         .build());
             }
