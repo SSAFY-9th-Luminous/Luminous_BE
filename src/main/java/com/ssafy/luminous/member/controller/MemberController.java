@@ -40,9 +40,8 @@ public class MemberController {
         Member member;
         try {
             member = memberService.login(loginRequestDto);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return new BaseResponse<>(BaseResponseStatus.FAILED_TO_LOGIN);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
         }
 
         String accessToken = jwtService.createAccessToken("id", member.getId());

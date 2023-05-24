@@ -5,6 +5,7 @@ import com.ssafy.luminous.config.BaseResponseStatus;
 import com.ssafy.luminous.constellation.domain.Constellation12;
 import com.ssafy.luminous.constellation.repository.Constellation12Repository;
 import com.ssafy.luminous.member.domain.Member;
+import com.ssafy.luminous.member.domain.MemberStatus;
 import com.ssafy.luminous.member.dto.LoginRequestDto;
 import com.ssafy.luminous.member.dto.MemberDetailReqDto;
 import com.ssafy.luminous.member.dto.MemberUpdateRequestDto;
@@ -64,16 +65,19 @@ public class MemberService {
     }
 
     // 로그인
-    public Member login(LoginRequestDto loginRequestDto) throws IllegalArgumentException {
+    public Member login(LoginRequestDto loginRequestDto) throws BaseException {
         Optional<Member> member = memberRepository.findByMemberId(loginRequestDto.getMemberId());
 
         // 아이디가 다를 경우
         if (member.isEmpty()) {
-            throw new IllegalArgumentException("아이디가 일치하지 않습니다");
+            throw new BaseException(NOT_MATCHED_ID);
         }
         // 비밀번호 비교
         if (!validatePassword(member.get().getMemberPassword(), loginRequestDto.getMemberPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new BaseException(FAILED_TO_LOGIN);
+        }
+        if (member.get().getMemberStatus() == MemberStatus.DELETED) {
+            throw new BaseException(DELETED_USER);
         }
 
         return member.get();
@@ -132,6 +136,7 @@ public class MemberService {
                     .birth(member.getBirth())
                     .constellation12Id(member.getConstellation12().getId())
                     .constellation12Name(member.getConstellation12().getConstellationDetail().getContentsName())
+                    .constellation12Img(member.getConstellation12().getImg())
                     .build();
             return detailReqDto;
         } catch (Exception e) {
