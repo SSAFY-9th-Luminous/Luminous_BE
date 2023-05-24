@@ -33,6 +33,10 @@ public class Member {
     @Column(nullable = false)
     private Date birth;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private MemberStatus memberStatus = MemberStatus.USER;
+
     @OneToOne
     private Constellation12 constellation12;
 
@@ -43,4 +47,7 @@ public class Member {
         return this;
     }
 
+    public void delete(){
+        this.memberStatus = MemberStatus.DELETED;
+    }
 }

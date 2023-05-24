@@ -68,11 +68,13 @@ public class MemberController {
     // 회원탈퇴
     @DeleteMapping("/{id}")
     public BaseResponse<Object> deleteMember(@PathVariable("id") Long id) {
-        if (memberService.deleteMember(id)) {
+        try {
+            memberService.deleteMember(id);
             return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(BaseResponseStatus.FAILED_TO_DELETE);
         }
 
-        return new BaseResponse<>(BaseResponseStatus.FAILED_TO_DELETE);
     }
 
     // 아이디 중복 체크
