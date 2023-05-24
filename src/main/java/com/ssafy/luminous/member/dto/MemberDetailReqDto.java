@@ -16,5 +16,6 @@ public class MemberDetailReqDto {
     private Date birth;
     private Long constellation12Id;
     private String constellation12Name;
+    private String constellation12Img;
 
 }

@@ -68,7 +68,11 @@ public class CampingUtil {
                             .homepage(getTagValue("homepage", eElement))
                             .glamping(getTagValue("glampInnerFclty", eElement))
                             .caravan(getTagValue("caravInnerFclty", eElement))
+                            .facility(getTagValue("sbrsCl", eElement))
+                            .theme(getTagValue("themaEnvrnCl", eElement))
                             .imageUrl(getTagValue("firstImageUrl", eElement))
+                            .rate(0.0)
+                            .count(0)
                             .build();
 
                     campingRepository.save(camping);

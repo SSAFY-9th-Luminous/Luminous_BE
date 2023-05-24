@@ -67,6 +67,7 @@ public class CampingController {
         return new BaseResponse<>(campingService.findByDoNameContaining(region));
     }
 
+    // 캠핑 디테일 정보 반환(Camping + images)
     @GetMapping("/{id}")
     public BaseResponse<CampingDetailResponseDto> getCamping(@PathVariable Long id) {
         try {
