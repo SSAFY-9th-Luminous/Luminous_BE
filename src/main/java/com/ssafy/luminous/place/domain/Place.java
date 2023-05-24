@@ -62,7 +62,7 @@ public class Place {
         this.placeDescription=placeUpdateReqDto.getPlaceDescription();
         this.visitedDate = placeUpdateReqDto.getVisitedDate();
         this.lastModifiedDate = new Date(System.currentTimeMillis());
-        this.img = placeUpdateReqDto.getImg();
+        this.img = placeUpdateReqDto.getUrl();
         this.latitude = placeUpdateReqDto.getLatitude();
         this.longitude = placeUpdateReqDto.getLongitude();
         this.address = placeUpdateReqDto.getAddress();

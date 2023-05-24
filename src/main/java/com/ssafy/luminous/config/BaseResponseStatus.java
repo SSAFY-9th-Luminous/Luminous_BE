@@ -35,6 +35,8 @@ public enum BaseResponseStatus {
     CAN_NOT_FOUND_PLACE(false, 2302, "마이플레이스를 찾을 수 없습니다."),
     GPT_API_ERROR(false, 2303, "현재 ChatGPT 사용에 문제가 발생했습니다."),
     CAN_NOT_CALL_TODAY_FORTUNE(false,2304,"오늘의 운세를 불러올 수 없습니다."),
+    AWS_UPLOAD_FAIL_ERROR(false,2305,"이미지 업로드에 실패했습니다."),
+    AWS_DELETE_FAIL_ERROR(false,2306,"이미지 삭제에 실패했습니다."),
 
 
 

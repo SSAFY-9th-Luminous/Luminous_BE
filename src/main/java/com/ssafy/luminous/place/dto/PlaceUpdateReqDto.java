@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Blob;
 import java.sql.Date;
@@ -21,7 +22,9 @@ public class PlaceUpdateReqDto {
 
     private Date visitedDate;
 
-    private String img;
+    private MultipartFile img;
+
+    private transient String url;
 
     private Double latitude;
 
