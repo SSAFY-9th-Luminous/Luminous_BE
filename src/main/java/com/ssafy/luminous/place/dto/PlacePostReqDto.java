@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Blob;
 import java.sql.Date;
@@ -22,24 +23,25 @@ public class PlacePostReqDto {
 
     private Date visitedDate;
 
-    private String img;
-
     private Double latitude;
 
     private Double longitude;
 
     private String address;
 
+    @Builder.Default
     private Double rate = (double) 0;
 
     private Long memberId;
+    private MultipartFile img;
+    private transient String url;
 
     public Place toEntity(Long memberId){
         return Place.builder()
                 .placeName(placeName)
                 .placeDescription(placeDescription)
                 .visitedDate(visitedDate)
-                .img(img)
+                .img(url)
                 .address(address)
                 .latitude(latitude)
                 .longitude(longitude)

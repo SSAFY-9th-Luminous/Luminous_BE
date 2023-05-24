@@ -6,9 +6,11 @@ import com.ssafy.luminous.place.dto.PlaceListResDto;
 import com.ssafy.luminous.place.dto.PlacePostReqDto;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.repository.PlaceRepository;
+import com.ssafy.luminous.util.s3.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import static com.ssafy.luminous.config.BaseResponseStatus.NOT_OWNER;
 public class PlaceService {
 
     private final PlaceRepository placeRepository;
+    private final S3Service s3Service;
 
     @Transactional(readOnly = true)
     public List<PlaceListResDto> getPlaceList(String category, String keyword) throws BaseException {
@@ -68,63 +71,65 @@ public class PlaceService {
     }
 
     @Transactional
-    public Place postPlace(PlacePostReqDto placePostReqDto, Long memberId) throws BaseException {
+    public void postPlace(PlacePostReqDto placePostReqDto, Long memberId) throws BaseException {
         try {
-            return placeRepository.save(placePostReqDto.toEntity(memberId));
-        } catch (Exception e) {
+            if(!placePostReqDto.getImg().isEmpty()){
+                String url = s3Service.uploadImage(placePostReqDto.getImg());
+                placePostReqDto.setUrl(url);
+            }
+            placeRepository.save(placePostReqDto.toEntity(memberId));
+        }
+        catch (BaseException e){
+            throw new BaseException(e.getStatus());
+        }
+        catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
-    @Transactional
-    public Place postPlace(PlacePostReqDto placePostReqDto) throws BaseException {
-        try {
-            return placeRepository.save(placePostReqDto.toEntity(1L));
-        } catch (Exception e) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
-    @Transactional
-    public void deletePlace(Long id) throws BaseException {
-        Optional<Place> place = placeRepository.findById(id);
-        if (place.isEmpty()) {
-            System.out.println("사용자의 게시글이 아니에요~");
-            throw new BaseException(NOT_OWNER);
-        }
-        placeRepository.deleteById(id);
-    }
-
     @Transactional
     public void deletePlace(Long id, Long memberId) throws BaseException {
         Optional<Place> place = placeRepository.findByIdAndMember_id(id, memberId);
-        if (place.isEmpty()) {
-            System.out.println("사용자의 게시글이 아니에요~");
-            throw new BaseException(NOT_OWNER);
+        try {
+
+            if (place.isEmpty()) {
+                System.out.println("사용자의 게시글이 아니에요~");
+                throw new BaseException(NOT_OWNER);
+            }
+
+            if (place.get().getImg() != null) {
+                s3Service.deleteImage(place.get().getImg());
+            }
+            placeRepository.deleteById(id);
         }
-        placeRepository.deleteById(id);
+        catch (BaseException e){
+            throw new BaseException(e.getStatus());
+        }
+        catch (Exception e){
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
     @Transactional
-    public Place updatePlace(Long id, PlaceUpdateReqDto placeUpdateReqDto) throws BaseException {
-        Optional<Place> place = placeRepository.findById(id);
+    public void updatePlace(Long id, PlaceUpdateReqDto placeUpdateReqDto, Long memberId) throws BaseException {
 
-        if (place.isEmpty()) {
-            System.out.println("사용자의 게시글이 아니에요~");
-            throw new BaseException(NOT_OWNER);
-        }
-        place.get().update(placeUpdateReqDto);
-        return place.get();
-    }
-    @Transactional
-    public Place updatePlace(Long id, PlaceUpdateReqDto placeUpdateReqDto, Long memberId) throws BaseException {
+        try {
+            Optional<Place> place = placeRepository.findByIdAndMember_id(id, memberId);
+            if (place.isEmpty()) {
+                System.out.println("사용자의 게시글이 아니에요~");
+                throw new BaseException(NOT_OWNER);
+            }
+            if(!placeUpdateReqDto.getImg().isEmpty()){
+                s3Service.deleteImage(place.get().getImg());
+                s3Service.uploadImage(placeUpdateReqDto.getImg());
+            }
+            place.get().update(placeUpdateReqDto);
 
-        Optional<Place> place = placeRepository.findByIdAndMember_id(id, memberId);
-        if (place.isEmpty()) {
-            System.out.println("사용자의 게시글이 아니에요~");
-            throw new BaseException(NOT_OWNER);
         }
-        place.get().update(placeUpdateReqDto);
-        return place.get();
+        catch (BaseException e){
+            throw new BaseException(e.getStatus());
+        }
+        catch (Exception e){
+            throw new BaseException(DATABASE_ERROR);
+        }
 
 
     }

@@ -9,11 +9,17 @@ import com.ssafy.luminous.place.dto.PlacePostReqDto;
 import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import com.ssafy.luminous.place.service.PlaceService;
 import com.ssafy.luminous.util.jwt.JwtService;
+import com.ssafy.luminous.util.s3.S3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static com.ssafy.luminous.config.BaseResponseStatus.SUCCESS;
 
@@ -52,23 +58,24 @@ public class PlaceController {
     }
 
     @PostMapping("")
-    public BaseResponse<Place> postPlace(HttpServletRequest request, @RequestBody PlacePostReqDto placePostReqDto) {
-//        Long memberId = jwtService.getIdFromToken(request);
-//        return placeService.postPlace(placePostReqDto,memberId);
+    public BaseResponse<?> postPlace(HttpServletRequest request,
+                                         @ModelAttribute PlacePostReqDto placePostReqDto)
+        {
         try {
-
-            return new BaseResponse<>(placeService.postPlace(placePostReqDto));
+            Long memberId = jwtService.getIdFromToken(request);
+            placeService.postPlace(placePostReqDto, memberId);
+            return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
     }
 
     @DeleteMapping("/{id}")
-    public BaseResponse<?> deletePlace(HttpServletRequest request, @PathVariable Long id) {
-//        Long memberId = jwtService.getIdFromToken(request);
-//        placeService.deletePlace(id,memberId);
+    public BaseResponse<?> deletePlace(HttpServletRequest request,
+                                       @PathVariable Long id) {
         try {
-            placeService.deletePlace(id);
+            Long memberId = jwtService.getIdFromToken(request);
+            placeService.deletePlace(id, memberId);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
@@ -76,11 +83,13 @@ public class PlaceController {
     }
 
     @PutMapping("/{id}")
-    public BaseResponse<Place> updatePlace(HttpServletRequest request, @PathVariable Long id, @RequestBody PlaceUpdateReqDto placeUpdateReqDto) {
-//        Long memberId = jwtService.getIdFromToken(request);
-//        return placeService.updatePlace(id, placeUpdateReqDto,memberId);
+    public BaseResponse<Place> updatePlace(HttpServletRequest request,
+                                           @PathVariable Long id,
+                                           @ModelAttribute PlaceUpdateReqDto placeUpdateReqDto) {
         try {
-            return new BaseResponse<>(placeService.updatePlace(id, placeUpdateReqDto));
+            Long memberId = jwtService.getIdFromToken(request);
+            placeService.updatePlace(id, placeUpdateReqDto, memberId);
+            return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
