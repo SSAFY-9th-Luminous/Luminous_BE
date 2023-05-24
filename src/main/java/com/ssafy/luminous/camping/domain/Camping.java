@@ -47,6 +47,14 @@ public class Camping {
 
     private String caravan;
 
+    private String facility;
+
+    private String theme;
+
     private String imageUrl;
+
+    private Double rate;
+
+    private int count;
 
 }

@@ -75,6 +75,7 @@ public class CampingService {
         return CampingImageList;
     }
 
+    // 캠핑 목록 반환(CampingListResponseDto)
     public List<CampingListResponseDto> getCampingList(String region)  {
         List<Camping> campings = campingRepository.findByDoNameContaining(region);
 
