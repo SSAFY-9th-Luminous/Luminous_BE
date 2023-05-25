@@ -38,6 +38,7 @@ public class ObservatoryService {
                     .siDoName(obs.getAddress().split(" ")[0])
                     .observatoryName(obs.getObservatoryName())
                     .address(obs.getAddress())
+                    .imageUrl(obs.getImageUrl())
                     .build();
 
             observatoryListResponseDtos.add(newObs);
