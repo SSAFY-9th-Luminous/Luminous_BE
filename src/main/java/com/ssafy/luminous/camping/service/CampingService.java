@@ -125,6 +125,8 @@ public class CampingService {
                         .campingName(getTagValue("facltNm", eElement))
                         .lineIntro(getTagValue("lineIntro", eElement))
                         .imageUrl(getTagValue("firstImageUrl", eElement))
+                        .rate(0.0)
+                        .count(0)
                         .build());
             }   // if end
         }   // for end
@@ -133,12 +135,13 @@ public class CampingService {
     }
 
     // 캠핑 목록 반환(CampingListResponseDto)
+    @Transactional(readOnly = true)
     public List<CampingListResponseDto> getCampingList(String region)  {
-        List<Camping> campings = campingRepository.findByDoNameContaining(region);
+        List<Camping> campingList = campingRepository.findByDoNameContaining(region);
 
         List<CampingListResponseDto> campingListResponseDtoList = new ArrayList<>();
 
-        for (Camping camping : campings) {
+        for (Camping camping : campingList) {
             campingListResponseDtoList.add(CampingListResponseDto.builder()
                     .id(camping.getId())
                     .doName(camping.getDoName())
@@ -147,6 +150,8 @@ public class CampingService {
                     .campingName(camping.getCampingName())
                     .lineIntro(camping.getLineIntro())
                     .imageUrl(camping.getImageUrl())
+                    .count(camping.getCount())
+                    .rate(camping.getRate())
                     .build());
         }
 

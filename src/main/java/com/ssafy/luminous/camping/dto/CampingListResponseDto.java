@@ -20,5 +20,7 @@ public class CampingListResponseDto {
     private String lineIntro;
 
     private String imageUrl;
+    private Double rate;
+    private int count;
 
 }
