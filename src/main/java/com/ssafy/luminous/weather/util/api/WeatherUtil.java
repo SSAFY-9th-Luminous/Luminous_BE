@@ -46,7 +46,7 @@ public class WeatherUtil {
                                 {129,36},
                                 {127, 35},
                                 {127, 33}};
-
+        final String[] cities = {"서울", "강원도", "충청도", "경상도", "전라도", "제주도"};
         while (page == 17 || page == 40) {
             for(int j = 0; j< city.length; j++) {
 
@@ -75,7 +75,7 @@ public class WeatherUtil {
                             continue;
                         }
                         Weather weather = Weather.builder()
-                                .city_id(j)
+                                .city(cities[j])
                                 .category(getTagValue("category", eElement))
                                 .fcstDate(getTagValue("fcstDate", eElement))
                                 .fcstValue(getTagValue("fcstValue", eElement))

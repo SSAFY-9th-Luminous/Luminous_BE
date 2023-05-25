@@ -18,7 +18,7 @@ public class Weather {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int city_id;
+    private String city;
 
     private String category;
 

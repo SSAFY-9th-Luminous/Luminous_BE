@@ -41,4 +41,38 @@ public class WeatherController {
             return new BaseResponse<>(BaseResponseStatus.API_ERROR);
         }
     }
+
+    @GetMapping("/today/sky")
+    public BaseResponse<List<Weather>> getTodayWeatherSkyList() {
+        try {
+            return new BaseResponse<>(weatherService.getTodayWeatherSkyList());
+        } catch (Exception e) {
+            return new BaseResponse<>(BaseResponseStatus.API_ERROR);
+        }
+    }
+    @GetMapping("/tomorrow/sky")
+    public BaseResponse<List<Weather>> getTomorrowWeatherSkyList() {
+        try {
+            return new BaseResponse<>(weatherService.getTomorrowWeatherSkyList());
+        } catch (Exception e) {
+            return new BaseResponse<>(BaseResponseStatus.API_ERROR);
+        }
+    }
+
+    @GetMapping("/today/tmp")
+    public BaseResponse<List<Weather>> getTodayWeatherTmpList() {
+        try {
+            return new BaseResponse<>(weatherService.getTodayWeatherTmpList());
+        } catch (Exception e) {
+            return new BaseResponse<>(BaseResponseStatus.API_ERROR);
+        }
+    }
+    @GetMapping("/tomorrow/tmp")
+    public BaseResponse<List<Weather>> getTomorrowWeatherTmpList() {
+        try {
+            return new BaseResponse<>(weatherService.getTomorrowWeatherTmpList());
+        } catch (Exception e) {
+            return new BaseResponse<>(BaseResponseStatus.API_ERROR);
+        }
+    }
 }

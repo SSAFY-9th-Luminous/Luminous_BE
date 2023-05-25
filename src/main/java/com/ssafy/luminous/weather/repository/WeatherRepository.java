@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface WeatherRepository extends JpaRepository<Weather, Long> {
     List<Weather> findAll();
+
+    List<Weather> findByFcstDate(String date);
+
+    List<Weather> findByFcstDateAndCategory(String date, String tmp);
 }
