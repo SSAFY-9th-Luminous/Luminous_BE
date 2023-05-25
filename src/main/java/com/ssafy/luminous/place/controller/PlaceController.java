@@ -9,6 +9,7 @@ import com.ssafy.luminous.place.service.PlaceService;
 import com.ssafy.luminous.util.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -74,12 +75,14 @@ public class PlaceController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public BaseResponse<Place> updatePlace(HttpServletRequest request,
                                            @PathVariable Long id,
+                                           @RequestPart(value = "img", required = false) MultipartFile file,
                                            @ModelAttribute PlaceUpdateReqDto placeUpdateReqDto) {
         try {
             Long memberId = jwtService.getIdFromToken(request);
+            placeUpdateReqDto.setImg(file);
             placeService.updatePlace(id, placeUpdateReqDto, memberId);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {

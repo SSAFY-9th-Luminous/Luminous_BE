@@ -119,7 +119,11 @@ public class PlaceService {
             }
             if(!placeUpdateReqDto.getImg().isEmpty()){
                 s3Service.deleteImage(place.get().getImg());
-                s3Service.uploadImage(placeUpdateReqDto.getImg());
+                String url = s3Service.uploadImage(placeUpdateReqDto.getImg());
+                placeUpdateReqDto.setUrl(url);
+            }
+            else{
+                placeUpdateReqDto.setUrl(place.get().getImg());
             }
             place.get().update(placeUpdateReqDto);
 
