@@ -1,8 +1,11 @@
 package com.ssafy.luminous.observatory.service;
 
+import com.ssafy.luminous.camping.domain.Camping;
+import com.ssafy.luminous.camping.dto.CampingRateRequestDto;
 import com.ssafy.luminous.config.BaseException;
 import com.ssafy.luminous.observatory.domain.Observatory;
 import com.ssafy.luminous.observatory.dto.ObservatoryListResponseDto;
+import com.ssafy.luminous.observatory.dto.ObservatoryRateRequestDto;
 import com.ssafy.luminous.observatory.repository.ObservatoryRepository;
 import com.ssafy.luminous.place.domain.Place;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ssafy.luminous.config.BaseResponseStatus.NOT_MATCHED_CAMPING;
 import static com.ssafy.luminous.config.BaseResponseStatus.NOT_OWNER;
 
 @Service
@@ -71,5 +75,28 @@ public class ObservatoryService {
         }
 
         return observatoryListResponseDtoList;
+    }
+
+    // 평점 추가
+    @Transactional
+    public Observatory rateObservatory(ObservatoryRateRequestDto observatoryRateRequestDto) throws BaseException {
+        long id = observatoryRateRequestDto.getId();
+        int rate = observatoryRateRequestDto.getRate();
+
+        Optional<Observatory> observatory = observatoryRepository.findById(id);
+
+        if (observatory.isEmpty()) {
+            throw new BaseException(NOT_MATCHED_CAMPING);
+        }
+
+        int observatoryCount = observatory.get().getCount();
+        Double observatoryRate = observatory.get().getRate();
+
+        observatoryRate = ((observatoryRate * observatoryCount) + rate) / ++observatoryCount;
+
+        observatory.get().setCount(observatoryCount);
+        observatory.get().setRate(observatoryRate);
+
+        return observatory.get();
     }
 }

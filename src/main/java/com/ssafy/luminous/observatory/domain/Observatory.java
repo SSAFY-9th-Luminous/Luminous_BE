@@ -1,14 +1,11 @@
 package com.ssafy.luminous.observatory.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Observatory {
@@ -37,6 +34,9 @@ public class Observatory {
 
     @Column(nullable = false)
     private String address;
+
+    @Column(nullable = false)
+    private int count;
 
     @Column(columnDefinition = "double default 0")
     private Double rate;
