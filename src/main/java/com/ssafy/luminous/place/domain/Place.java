@@ -5,10 +5,8 @@ import com.ssafy.luminous.place.dto.PlaceUpdateReqDto;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.sql.Date;
 
 @Entity
@@ -68,5 +66,9 @@ public class Place {
         this.address = placeUpdateReqDto.getAddress();
         this.rate = placeUpdateReqDto.getRate();
         return this;
+    }
+
+    public void addLike(){
+        this.rate += 1;
     }
 }

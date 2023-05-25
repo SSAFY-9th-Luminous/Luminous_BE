@@ -89,6 +89,19 @@ public class PlaceController {
             return new BaseResponse<>(e.getStatus());
         }
     }
+    @PostMapping("/{id}/like-up")
+    public BaseResponse<?> likeUp(HttpServletRequest request,
+                                  @PathVariable Long id){
+        try {
+            Long memberId = jwtService.getIdFromToken(request);
+            placeService.likeUp(id);
+            return new BaseResponse<>(SUCCESS);
+        }
+        catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+
+    }
 
 
 }

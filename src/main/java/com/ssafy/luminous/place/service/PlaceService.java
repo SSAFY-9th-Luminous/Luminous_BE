@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ssafy.luminous.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.ssafy.luminous.config.BaseResponseStatus.NOT_OWNER;
+import static com.ssafy.luminous.config.BaseResponseStatus.*;
 
 @Service
 @Transactional
@@ -149,5 +148,14 @@ public class PlaceService {
     @Transactional
     public int updateHit(Long id) {
         return placeRepository.updateHit(id);
+    }
+
+    @Transactional
+    public void likeUp(Long id) throws BaseException {
+        Optional<Place> place = placeRepository.findById(id);
+        if(place.isEmpty()){
+            throw new BaseException(CAN_NOT_FOUND_PLACE);
+        }
+        place.get().addLike();
     }
 }
