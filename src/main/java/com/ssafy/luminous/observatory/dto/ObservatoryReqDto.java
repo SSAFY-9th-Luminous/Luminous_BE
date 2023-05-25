@@ -24,5 +24,6 @@ public class ObservatoryReqDto {
 
     private String address;
 
-    private Double rate;
+    @Builder.Default
+    private Double rate= 0.0;
 }
