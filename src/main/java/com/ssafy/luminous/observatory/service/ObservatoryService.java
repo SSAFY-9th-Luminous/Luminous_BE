@@ -57,10 +57,10 @@ public class ObservatoryService {
     }
 
     public List<ObservatoryListResponseDto> getObservatoryListByLocation() {
-        List<Observatory> observatoryList = observatoryRepository.findByAddressStartsWith("서울");
+        List<Observatory> observatoryList = observatoryRepository.findByAddressStartsWith("경기");
         List<ObservatoryListResponseDto> observatoryListResponseDtoList = new ArrayList<>();
         for (Observatory obs : observatoryList) {
-            if (obs.getImageUrl() == null) continue;
+            if (obs.getImageUrl().equals("") || obs.getImageUrl() == null) continue;
 
             observatoryListResponseDtoList.add(ObservatoryListResponseDto.builder()
                     .id(obs.getId())
